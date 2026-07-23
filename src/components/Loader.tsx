@@ -66,10 +66,10 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
           }}
           className="fixed inset-0 bg-[#050507] z-[9999] flex flex-col justify-between p-8 lg:p-12 select-none overflow-hidden"
         >
-          {/* Custom cinematic portrait background */}
+          {/* Custom cinematic portrait background (slow zoom out from 1.35 to 1.05) */}
           <motion.div
-            initial={{ scale: 1.12, opacity: 0 }}
-            animate={{ scale: 1, opacity: 0.58 }}
+            initial={{ scale: 1.35, opacity: 0 }}
+            animate={{ scale: 1.05, opacity: 0.82 }}
             transition={{ duration: 4.5, ease: 'easeOut' }}
             className="absolute inset-0 z-0 bg-cover bg-center"
             style={{
@@ -78,39 +78,39 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
           />
 
           {/* Vignette Overlay for readability */}
-          <div className="absolute inset-0 bg-gradient-to-b from-[#050507]/90 via-[#050507]/55 to-[#050507]/90 z-10" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[#050507]/90 via-[#050507]/40 to-[#050507]/90 z-10" />
 
-          {/* Drifting Cinematic Smoke / Fog Effect */}
-          <div className="absolute inset-0 z-[12] overflow-hidden pointer-events-none opacity-40 mix-blend-screen">
+          {/* Realistic Drifting Cinematic Smoke / Fog Effect */}
+          <div className="absolute inset-0 z-[12] overflow-hidden pointer-events-none opacity-70 mix-blend-screen">
+            <motion.div
+              animate={{
+                x: [-200, 200, -200],
+                y: [-100, 100, -100],
+                scale: [1, 1.3, 1],
+                rotate: [0, 180, 360],
+              }}
+              transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-[50%] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.12)_0%,transparent_60%)] filter blur-3xl"
+            />
+            <motion.div
+              animate={{
+                x: [200, -200, 200],
+                y: [100, -100, 100],
+                scale: [1.3, 1.0, 1.3],
+                rotate: [360, 180, 0],
+              }}
+              transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-[50%] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08)_0%,transparent_55%)] filter blur-3xl"
+            />
             <motion.div
               animate={{
                 x: [-150, 150, -150],
-                y: [-80, 80, -80],
-                scale: [1, 1.25, 1],
-                rotate: [0, 180, 360],
+                y: [150, -150, 150],
+                scale: [0.95, 1.2, 0.95],
+                rotate: [90, 270, 450],
               }}
-              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-              className="absolute -inset-[60%] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06)_0%,transparent_60%)] filter blur-3xl"
-            />
-            <motion.div
-              animate={{
-                x: [150, -150, 150],
-                y: [80, -80, 80],
-                scale: [1.2, 0.95, 1.2],
-                rotate: [360, 180, 0],
-              }}
-              transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
-              className="absolute -inset-[60%] bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.04)_0%,transparent_50%)] filter blur-3xl"
-            />
-            <motion.div
-              animate={{
-                x: [-100, 100, -100],
-                y: [120, -120, 120],
-                scale: [0.95, 1.15, 0.95],
-                rotate: [45, 225, 405],
-              }}
-              transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
-              className="absolute -inset-[60%] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.04)_0%,transparent_55%)] filter blur-2xl"
+              transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-[50%] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.1)_0%,transparent_60%)] filter blur-2xl"
             />
           </div>
 
@@ -140,7 +140,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1.05 }}
                   transition={{ duration: 0.4 }}
-                  className="absolute z-20 flex items-center justify-center font-space text-4xl lg:text-6xl font-light tracking-[0.15em] text-white"
+                  className="absolute z-20 flex items-center justify-center font-cinzel text-4xl lg:text-6xl font-light tracking-[0.2em] text-white"
                 >
                   {step === 0 && (
                     <div className="flex items-center">
@@ -205,7 +205,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
                   }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 1.0, ease: [0.76, 0, 0.24, 1] }}
-                  className="absolute z-20 font-space text-3xl lg:text-5xl font-light tracking-[0.2em] text-white"
+                  className="absolute z-20 font-cinzel text-3xl lg:text-5xl font-light tracking-[0.25em] text-white"
                 >
                   HI THIS IS
                 </motion.div>
@@ -222,7 +222,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
                   className="absolute z-20 flex flex-col items-center justify-center text-center mt-[10vh]"
                   key="rohith-reveal"
                 >
-                  <div className="flex items-center justify-center text-5xl lg:text-8xl font-space font-black tracking-[0.05em] text-white uppercase drop-shadow-[0_0_40px_rgba(255,255,255,0.45)]">
+                  <div className="flex items-center justify-center text-6xl lg:text-[7rem] font-cinzel font-normal tracking-[0.1em] text-gold-metallic select-none">
                     {/* RO */}
                     <motion.span
                       initial={{ x: -35, opacity: 0, width: 0 }}
