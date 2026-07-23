@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight, Camera, Aperture } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
 
 interface GalleryItem {
   id: string;
   src: string;
   title: string;
   category: string;
-  exif: string;
 }
 
 export const Gallery: React.FC = () => {
@@ -17,58 +16,146 @@ export const Gallery: React.FC = () => {
     {
       id: 'photo-1',
       src: '/photos/WhatsApp Image 2026-06-27 at 15.44.21.jpeg',
-      title: 'Monochromatic Director Portrait',
-      category: 'Portraiture',
-      exif: '50mm • f/1.8 • 1/1000s • ISO 100'
+      title: 'Monochromatic Portrait',
+      category: 'Portrait'
     },
     {
       id: 'photo-2',
       src: '/photos/WhatsApp Image 2026-06-27 at 15.44.22.jpeg',
       title: 'Cinematic Ambient Frame',
-      category: 'Cinematography',
-      exif: '35mm • f/2.0 • 1/500s • ISO 200'
+      category: 'Cinematography'
     },
     {
       id: 'photo-3',
       src: '/photos/WhatsApp Image 2026-06-27 at 15.44.18.jpeg',
-      title: 'Atmospheric Rain Study',
-      category: 'Atmospheric',
-      exif: '85mm • f/1.4 • 1/2000s • ISO 100'
+      title: 'Raindrop Texture Study',
+      category: 'Atmospheric'
     },
     {
       id: 'photo-4',
       src: '/photos/WhatsApp Image 2026-06-27 at 15.38.42.jpeg',
-      title: 'Shadow & Chiaroscuro Outline',
-      category: 'Cinematography',
-      exif: '24mm • f/2.8 • 1/250s • ISO 400'
+      title: 'Shadows & Lighting Outline',
+      category: 'Cinematography'
     },
     {
       id: 'photo-5',
-      src: '/photos/20240218_205629.jpg',
-      title: 'Urban Neon Vignette',
-      category: 'Urban',
-      exif: '50mm • f/1.4 • 1/125s • ISO 800'
+      src: '/photos/WhatsApp Image 2026-06-27 at 15.38.43.jpeg',
+      title: 'Aesthetic Tone Composition',
+      category: 'Still Life'
     },
     {
       id: 'photo-6',
-      src: '/photos/IMG_2561.jpg',
-      title: 'Editorial Composition',
-      category: 'Portraiture',
-      exif: '85mm • f/1.8 • 1/1000s • ISO 100'
+      src: '/photos/WhatsApp Image 2026-06-27 at 15.44.24.jpeg',
+      title: 'Collegiate Production Still',
+      category: 'Short Film Still'
     },
     {
       id: 'photo-7',
-      src: '/photos/IMG_8495.jpg',
-      title: 'Cinematic Stills Frame',
-      category: 'Short Film Still',
-      exif: '35mm • f/1.4 • 1/1600s • ISO 100'
+      src: '/photos/WhatsApp Imeage 2026-06-27 at 15.44.24.jpeg',
+      title: 'Film Monologue Mood Board',
+      category: 'Atmospheric'
     },
     {
       id: 'photo-8',
+      src: '/photos/next-env.d.jpeg',
+      title: 'Digital Workspace Structure',
+      category: 'Tech & Art'
+    },
+    {
+      id: 'photo-9',
+      src: '/photos/20240218_205629.jpg',
+      title: 'Street Neon Glow',
+      category: 'Urban'
+    },
+    {
+      id: 'photo-10',
+      src: '/photos/2743554D-F024-418C-945B-90F1BC179740_PNG.jpg',
+      title: 'Golden Hour Solitude',
+      category: 'Cinematic'
+    },
+    {
+      id: 'photo-11',
+      src: '/photos/CAC18D48-7B40-45D9-8E09-5753933DAF74.jpeg',
+      title: 'Chasing Shadows',
+      category: 'Monochrome'
+    },
+    {
+      id: 'photo-12',
       src: '/photos/IMG_0213.jpg',
-      title: 'Horizon Silhouette Study',
-      category: 'Atmospheric',
-      exif: '50mm • f/4.0 • 1/4000s • ISO 100'
+      title: 'Silhouetted Horizon',
+      category: 'Landscape'
+    },
+    {
+      id: 'photo-13',
+      src: '/photos/IMG_1819.JPG',
+      title: 'Candid Silhouette',
+      category: 'Portrait'
+    },
+    {
+      id: 'photo-14',
+      src: '/photos/IMG_20220329_130826.jpg',
+      title: 'Atmospheric Dusk',
+      category: 'Nature'
+    },
+    {
+      id: 'photo-15',
+      src: '/photos/IMG_20220528_205811 (1).jpg',
+      title: 'Urban Exploration',
+      category: 'Urban'
+    },
+    {
+      id: 'photo-16',
+      src: '/photos/IMG_20230206_183309.jpg',
+      title: 'Light Leak Contrast',
+      category: 'Aesthetic'
+    },
+    {
+      id: 'photo-17',
+      src: '/photos/IMG_2148.JPG',
+      title: 'Rustic Stillness',
+      category: 'Still Life'
+    },
+    {
+      id: 'photo-18',
+      src: '/photos/IMG_2561.jpg',
+      title: 'Editorial Composition',
+      category: 'Portrait'
+    },
+    {
+      id: 'photo-19',
+      src: '/photos/IMG_3075.JPG',
+      title: 'Warm Vignette',
+      category: 'Portrait'
+    },
+    {
+      id: 'photo-20',
+      src: '/photos/IMG_5832.JPG',
+      title: 'Minimalist Geometry',
+      category: 'Aesthetic'
+    },
+    {
+      id: 'photo-21',
+      src: '/photos/IMG_7530.JPG',
+      title: 'Smoky Radiance',
+      category: 'Cinematography'
+    },
+    {
+      id: 'photo-22',
+      src: '/photos/IMG_8403.JPG',
+      title: 'Golden Dust',
+      category: 'Atmospheric'
+    },
+    {
+      id: 'photo-23',
+      src: '/photos/IMG_8495.jpg',
+      title: 'Cinematic Portraiture',
+      category: 'Portrait'
+    },
+    {
+      id: 'photo-24',
+      src: '/photos/photo-output.jpeg',
+      title: 'Abstract Hue Frame',
+      category: 'Cinematography'
     }
   ];
 
@@ -87,57 +174,60 @@ export const Gallery: React.FC = () => {
   };
 
   return (
-    <section id="gallery" className="relative w-full py-28 bg-[#050507] px-4 lg:px-12 overflow-hidden border-b border-white/10">
-      <div className="max-w-7xl mx-auto relative z-10">
+    <section 
+      id="gallery" 
+      className="relative min-h-screen w-full bg-background py-24 lg:py-32 overflow-hidden px-6"
+    >
+      <div className="max-w-7xl w-full mx-auto relative z-10">
         
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-          <div>
-            <div className="flex items-center gap-2 font-timecode text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">
-              <Aperture className="w-4 h-4" />
-              <span>CINEMATOGRAPHY STILLS & EXIF METADATA</span>
-            </div>
-            <h2 className="font-mono text-4xl lg:text-7xl font-black tracking-tight text-white uppercase">
-              STILLS <span className="text-cyan-400">GALLERY</span>
-            </h2>
-          </div>
-          <p className="text-white/60 max-w-md font-sans text-sm leading-relaxed">
-            A curated gallery of cinematography stills, lighting studies, and visual mood boards.
-          </p>
+        {/* Header */}
+        <div className="text-left mb-16 lg:mb-24">
+          <span className="font-space text-xs lg:text-sm tracking-[0.3em] text-neutral-500 uppercase mb-4 block">
+            VISUAL PORTFOLIO
+          </span>
+          <h2 className="font-space text-4xl lg:text-5xl font-bold tracking-tight text-white">
+            Photo Gallery
+          </h2>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* Pinterest Masonry Grid */}
+        <div className="columns-1 sm:columns-2 lg:columns-4 gap-6 space-y-6">
           {photos.map((photo, idx) => (
             <motion.div
               key={photo.id}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.05 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.6, delay: idx * 0.05 }}
               onClick={() => setActivePhotoIdx(idx)}
-              data-cursor="inspect"
-              className="relative aspect-[3/4] rounded-2xl overflow-hidden glass-panel border border-white/10 group cursor-pointer shadow-[0_15px_40px_rgba(0,0,0,0.8)]"
+              className="relative rounded-2xl overflow-hidden glass-panel border border-white/5 cursor-zoom-in group break-inside-avoid"
             >
+              {/* Glass Reflection sweep */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/[0.04] to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-10" />
+
               <img 
                 src={photo.src} 
-                alt={photo.title} 
-                className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                alt={photo.title}
+                loading="lazy"
+                className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 grayscale group-hover:grayscale-0"
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent p-6 flex flex-col justify-between">
-                <div className="flex justify-between items-center font-timecode text-[10px]">
-                  <span className="px-2.5 py-1 rounded bg-black/70 border border-white/10 text-cyan-400 font-bold">
-                    {photo.category}
-                  </span>
-                </div>
+              {/* Cover Gradient */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex flex-col justify-end p-6 text-left" />
 
-                <div>
-                  <h3 className="font-mono text-base font-black text-white uppercase mb-1 group-hover:text-cyan-400 transition-colors">
+              {/* Content overlay */}
+              <div className="absolute inset-0 p-6 flex flex-col justify-between items-start z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                <span className="bg-black/50 backdrop-blur-md px-2.5 py-1 rounded font-satoshi text-[9px] uppercase tracking-wider text-neutral-300">
+                  {photo.category}
+                </span>
+
+                <div className="text-left mt-auto">
+                  <h4 className="font-space text-base font-bold text-white mb-1">
                     {photo.title}
-                  </h3>
-                  <div className="font-timecode text-[10px] text-white/50 flex items-center gap-1">
-                    <Camera className="w-3 h-3 text-cyan-400" />
-                    <span>{photo.exif}</span>
-                  </div>
+                  </h4>
+                  <span className="font-satoshi text-[9px] text-neutral-400 uppercase tracking-widest flex items-center gap-1">
+                    <Eye className="w-3.5 h-3.5" /> Open Lightbox
+                  </span>
                 </div>
               </div>
             </motion.div>
@@ -146,6 +236,7 @@ export const Gallery: React.FC = () => {
 
       </div>
 
+      {/* Lightbox Modal */}
       <AnimatePresence>
         {activePhotoIdx !== null && (
           <motion.div
@@ -153,47 +244,57 @@ export const Gallery: React.FC = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setActivePhotoIdx(null)}
-            className="fixed inset-0 z-[200] bg-black/95 backdrop-blur-2xl flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4"
           >
+            {/* Close Button */}
             <button
               onClick={() => setActivePhotoIdx(null)}
-              className="absolute top-6 right-6 p-3 rounded-full bg-white/10 text-white hover:bg-cyan-400 hover:text-black transition-all border border-white/10 z-50"
+              className="absolute top-6 right-6 w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all z-50"
             >
               <X className="w-5 h-5" />
             </button>
 
+            {/* Prev Image Button */}
             <button
               onClick={handlePrev}
-              className="absolute left-6 p-3 rounded-full bg-white/10 text-white hover:bg-cyan-400 hover:text-black transition-all border border-white/10 z-50"
+              className="absolute left-6 w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all z-50"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
 
+            {/* Next Image Button */}
             <button
               onClick={handleNext}
-              className="absolute right-6 p-3 rounded-full bg-white/10 text-white hover:bg-cyan-400 hover:text-black transition-all border border-white/10 z-50"
+              className="absolute right-6 w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all z-50"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
 
-            <div 
-              className="relative max-w-4xl max-h-[85vh] flex flex-col items-center justify-center font-timecode"
-              onClick={e => e.stopPropagation()}
+            {/* Centered Image */}
+            <motion.div
+              key={activePhotoIdx}
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="relative max-w-4xl max-h-[80vh] flex flex-col items-center justify-center pointer-events-auto"
+              onClick={(e) => e.stopPropagation()}
             >
               <img
                 src={photos[activePhotoIdx].src}
                 alt={photos[activePhotoIdx].title}
-                className="max-w-full max-h-[75vh] object-contain rounded-2xl border border-white/15 shadow-2xl"
+                className="max-w-full max-h-[75vh] object-contain rounded-xl border border-white/10 shadow-2xl"
               />
-              <div className="mt-4 text-center">
-                <h4 className="font-mono text-xl font-black text-white uppercase">
+
+              <div className="absolute -bottom-16 left-0 right-0 text-center flex flex-col gap-1 select-none">
+                <span className="font-space text-lg font-bold text-white">
                   {photos[activePhotoIdx].title}
-                </h4>
-                <div className="text-xs text-cyan-400 mt-1">
-                  {photos[activePhotoIdx].exif}
-                </div>
+                </span>
+                <span className="font-satoshi text-xs text-neutral-400 uppercase tracking-widest">
+                  {photos[activePhotoIdx].category}
+                </span>
               </div>
-            </div>
+            </motion.div>
 
           </motion.div>
         )}

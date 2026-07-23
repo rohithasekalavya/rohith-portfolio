@@ -1,128 +1,194 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Video, Cpu, Palette, Camera, Terminal } from 'lucide-react';
+import { Video, Cpu, Camera, Palette, ShieldCheck } from 'lucide-react';
 
-interface TechCategory {
+
+interface SkillGroup {
   category: string;
-  badge: string;
   icon: React.ReactNode;
   skills: string[];
+  glowColor: string; // Tailwind glow classes
 }
 
 export const Skills: React.FC = () => {
-  const techCategories: TechCategory[] = [
+  const [activeGroup, setActiveGroup] = useState<string>('All');
+
+  const skillGroups: SkillGroup[] = [
     {
-      category: 'NLE SUITES & POST-PRODUCTION',
-      badge: 'CORE NLE',
-      icon: <Video className="w-5 h-5 text-cyan-400" />,
+      category: 'Video Editing',
+      icon: <Video className="w-4 h-4 text-white" />,
+      glowColor: 'group-hover:border-purple-500/30 group-hover:shadow-purple-500/5',
       skills: [
-        'DaVinci Resolve Studio',
+        'DaVinci Resolve',
         'Adobe Premiere Pro',
-        'CapCut Pro',
-        'DaVinci Color Science',
-        'Speed Ramping & Velocity',
-        'Optical Flow Interpolation',
-        'Audio Foley & Monologues',
-        'Storyboarding & Staging'
+        'CapCut',
+        'Sound Design',
+        'Colour Grading',
+        'Storyboarding',
+        'Cinematography',
+        'Visual Pacing',
+        'Audio Monologues'
       ]
     },
     {
-      category: 'AI VIDEO GENERATION & SYNTHESIS',
-      badge: 'GEN-AI TECH',
-      icon: <Cpu className="w-5 h-5 text-cyan-400" />,
+      category: 'AI Tools',
+      icon: <Cpu className="w-4 h-4 text-white" />,
+      glowColor: 'group-hover:border-orange-500/30 group-hover:shadow-orange-500/5',
       skills: [
-        'Google Veo (Google Flow)',
-        'Kling AI Video Engine',
-        'RunwayML Gen-3 Alpha',
+        'Google Veo',
+        'Kling AI',
+        'RunwayML',
         'Pika Labs',
-        'InVideo AI Engine',
-        'Google Gemini Pro',
-        'ChatGPT Prompting',
-        'AI Motion Tracking'
+        'InVideo AI',
+        'Google Gemini',
+        'ChatGPT',
+        'Prompt Engineering',
+        'Seed Optimization'
       ]
     },
     {
-      category: 'CINEMATOGRAPHY & LIGHTROOM',
-      badge: 'OPTICS',
-      icon: <Camera className="w-5 h-5 text-cyan-400" />,
+      category: 'Photography',
+      icon: <Camera className="w-4 h-4 text-white" />,
+      glowColor: 'group-hover:border-emerald-500/30 group-hover:shadow-emerald-500/5',
       skills: [
-        'Handheld Videography',
+        'Videography',
         'Lightroom Classic',
-        'Studio & Ambient Lighting',
-        'Lens Focal Selection',
-        'Event Recap Editing',
-        'PicsArt Assets'
+        'PicsArt',
+        'Event Recap Sheets',
+        'Framing & Composition',
+        'Studio Lighting'
       ]
     },
     {
-      category: 'MOTION GRAPHICS & DESIGN',
-      badge: 'GRAPHICS',
-      icon: <Palette className="w-5 h-5 text-cyan-400" />,
+      category: 'Design & Motion',
+      icon: <Palette className="w-4 h-4 text-white" />,
+      glowColor: 'group-hover:border-pink-500/30 group-hover:shadow-pink-500/5',
       skills: [
+        'Canva',
         'Adobe After Effects',
-        'Canva Layouts',
-        'Kinetic Typography',
-        'Anamorphic Flares',
-        'Social Ad Posters',
-        'Film Grain Textures'
+        'Motion Graphics overlays',
+        'Social Ad Templates',
+        'Visual Asset Design',
+        'Typography layouts'
+      ]
+    },
+    {
+      category: 'Strategy & Soft',
+      icon: <ShieldCheck className="w-4 h-4 text-white" />,
+      glowColor: 'group-hover:border-blue-500/30 group-hover:shadow-blue-500/5',
+      skills: [
+        'Visual Storytelling',
+        'Scriptwriting',
+        'Social Media Editing',
+        'AI-Assisted Production',
+        'Team Mentoring',
+        'Creative Collaboration'
       ]
     }
   ];
 
+  const categories = ['All', ...skillGroups.map(g => g.category)];
+
+  const filteredGroups = activeGroup === 'All' 
+    ? skillGroups 
+    : skillGroups.filter(g => g.category === activeGroup);
+
   return (
-    <section id="skills" className="relative w-full py-28 bg-[#050507] px-4 lg:px-12 overflow-hidden border-b border-white/10">
-      <div className="max-w-7xl mx-auto relative z-10">
+    <section 
+      id="skills" 
+      className="relative min-h-screen w-full bg-background py-24 lg:py-32 overflow-hidden px-6"
+    >
+      {/* Background Lighting Glows */}
+      <div className="absolute top-1/3 left-1/4 w-[35vw] h-[35vw] bg-glow-purple opacity-20 blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-1/3 right-1/4 w-[40vw] h-[40vw] bg-glow-orange opacity-15 blur-[140px] pointer-events-none" />
+
+      <div className="max-w-6xl w-full mx-auto relative z-10">
         
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
+        {/* Header */}
+        <div className="text-left mb-16 lg:mb-20 flex flex-col md:flex-row justify-between items-start md:items-end gap-6">
           <div>
-            <div className="flex items-center gap-2 font-timecode text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">
-              <Terminal className="w-4 h-4" />
-              <span>EDITING ENGINES & CREATIVE AI STACK</span>
-            </div>
-            <h2 className="font-mono text-4xl lg:text-7xl font-black tracking-tight text-white uppercase">
-              TOOLS & <span className="text-cyan-400">STACK</span>
+            <span className="font-space text-xs lg:text-sm tracking-[0.3em] text-neutral-500 uppercase mb-4 block">
+              EXPERTISE & WORKFLOWS
+            </span>
+            <h2 className="font-space text-4xl lg:text-5xl font-bold tracking-tight text-white">
+              Skills & Tech Stack
             </h2>
           </div>
-          <div className="font-timecode text-xs text-white/50 bg-black/60 border border-white/10 px-4 py-2 rounded-lg">
-            ENGINE STATUS: 120 FPS ONLINE
+
+          {/* Category Selector filters */}
+          <div className="flex flex-wrap gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveGroup(cat)}
+                className={`px-4 py-2 rounded-full font-satoshi text-xs font-semibold tracking-wider uppercase transition-all duration-300 ${
+                  activeGroup === cat 
+                    ? 'bg-white text-black shadow-lg shadow-white/5' 
+                    : 'bg-white/5 border border-white/5 text-neutral-400 hover:text-white hover:bg-white/10'
+                }`}
+              >
+                {cat.split(' ')[0]}
+              </button>
+            ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {techCategories.map((group, groupIdx) => (
+        {/* Skills Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+          {filteredGroups.map((group, groupIdx) => (
             <motion.div
-              key={groupIdx}
+              layout
+              key={group.category}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: groupIdx * 0.1 }}
-              className="glass-panel rounded-2xl p-6 lg:p-8 border border-white/10 shadow-[0_15px_40px_rgba(0,0,0,0.8)] hover:border-cyan-400/50 transition-all duration-300"
+              transition={{ duration: 0.6, delay: groupIdx * 0.1 }}
+              className={`glass-panel rounded-[2rem] p-6 lg:p-8 flex flex-col hover:shadow-2xl transition-all duration-500 group ${group.glowColor}`}
             >
-              <div className="flex justify-between items-center mb-6 pb-4 border-b border-white/10 font-timecode">
-                <div className="flex items-center gap-3">
-                  <div className="p-2.5 rounded-lg bg-black/60 border border-white/10">
-                    {group.icon}
-                  </div>
-                  <h3 className="font-mono text-lg font-black text-white uppercase tracking-tight">
-                    {group.category}
-                  </h3>
+              {/* Group Title */}
+              <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/5">
+                <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center">
+                  {group.icon}
                 </div>
-                <span className="px-2.5 py-1 rounded bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 font-bold text-[10px]">
-                  {group.badge}
-                </span>
+                <h3 className="font-space text-lg font-bold text-white uppercase tracking-wider">
+                  {group.category}
+                </h3>
               </div>
 
-              <div className="flex flex-wrap gap-2.5 font-timecode text-xs">
-                {group.skills.map((skill, skillIdx) => (
-                  <span
-                    key={skillIdx}
-                    className="px-3.5 py-2 rounded-lg bg-white/5 border border-white/10 text-white/80 hover:text-cyan-400 hover:border-cyan-400/40 transition-all cursor-default flex items-center gap-2"
-                  >
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                    <span>{skill}</span>
-                  </span>
-                ))}
+              {/* Pills Cloud */}
+              <div className="flex flex-wrap gap-3">
+                {group.skills.map((skill, skillIdx) => {
+                  // Randomized float parameters to make each pill feel alive
+                  const floatY = [0, -4 - (skillIdx % 3) * 2, 0];
+                  const duration = 3 + (skillIdx % 4) * 0.8;
+                  const delay = (skillIdx % 5) * 0.3;
+
+                  return (
+                    <motion.div
+                      key={skill}
+                      animate={{ y: floatY }}
+                      transition={{ 
+                        repeat: Infinity, 
+                        duration: duration, 
+                        delay: delay, 
+                        ease: 'easeInOut' 
+                      }}
+                      whileHover={{ 
+                        scale: 1.05, 
+                        backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                        borderColor: 'rgba(255, 255, 255, 0.25)',
+                        transition: { duration: 0.2 } 
+                      }}
+                      style={{ willChange: 'transform', transform: 'translateZ(0)' }}
+                      className="bg-white/5 border border-white/5 px-4 py-2 rounded-full font-satoshi text-xs text-neutral-300 font-light flex items-center cursor-default"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/20 mr-2 group-hover:bg-white transition-colors" />
+                      {skill}
+                    </motion.div>
+                  );
+                })}
               </div>
+
             </motion.div>
           ))}
         </div>

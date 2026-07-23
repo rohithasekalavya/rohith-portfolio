@@ -7,22 +7,20 @@ import Loader from './components/Loader';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
-import VideoShowcase from './components/VideoShowcase';
-import ColorGradingStudio from './components/ColorGradingStudio';
-import CreativeProjects from './components/CreativeProjects';
 import Experience from './components/Experience';
 import Services from './components/Services';
+import VideoShowcase from './components/VideoShowcase';
+import CreativeProjects from './components/CreativeProjects';
 import Skills from './components/Skills';
 import Achievements from './components/Achievements';
 import Gallery from './components/Gallery';
+import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 
 export const App: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
-  const [letterboxActive, setLetterboxActive] = useState(false);
-  const [audioActive, setAudioActive] = useState(false);
 
   // Initialize Lenis Smooth Scrolling
   useEffect(() => {
@@ -56,20 +54,8 @@ export const App: React.FC = () => {
   useEffect(() => {
     if (isLoading) return;
 
-    const sections = [
-      'home',
-      'about',
-      'video-work',
-      'lut-studio',
-      'creative-projects',
-      'experience',
-      'services',
-      'skills',
-      'achievements',
-      'gallery',
-      'contact'
-    ];
-
+    const sections = ['home', 'about', 'experience', 'services', 'video-work', 'skills', 'contact'];
+    
     const observers = sections.map((id) => {
       const el = document.getElementById(id);
       if (!el) return null;
@@ -78,68 +64,77 @@ export const App: React.FC = () => {
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              setActiveSection(id);
+              const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80;
+              if (!isAtBottom || id === 'contact') {
+                setActiveSection(id);
+              }
             }
           });
         },
-        { rootMargin: '-40% 0px -50% 0px' }
+        {
+          rootMargin: '-40% 0px -50% 0px', // Trigger when section hits middle of viewport
+        }
       );
 
       observer.observe(el);
       return { el, observer };
     });
 
+    const handleScroll = () => {
+      const isAtBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 80;
+      if (isAtBottom) {
+        setActiveSection('contact');
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
     return () => {
       observers.forEach((obs) => {
-        if (obs) obs.observer.unobserve(obs.el);
+        if (obs) {
+          obs.observer.unobserve(obs.el);
+        }
       });
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [isLoading]);
 
   return (
-    <div className={`min-h-screen bg-[#050507] font-sans ${letterboxActive ? 'letterbox-active' : ''}`}>
-      {/* Reticle Custom Cursor */}
+    <>
+      {/* Custom Cursor Overlay */}
       <CustomCursor />
 
-      {/* Cinematic Film Leader Loader */}
+      {/* Entry Loader Screen */}
       <Loader onComplete={() => setIsLoading(false)} />
 
-      {/* 2.39:1 Anamorphic Letterbox Overlay */}
-      <div className="letterbox-overlay" />
-
-      {/* Film Grain Texture */}
-      <div className="film-grain" />
-
+      {/* Main Page Content */}
       {!isLoading && (
-        <div className="relative w-full min-h-screen bg-[#050507]">
-          {/* Glass Dock Navbar */}
-          <Navbar
-            activeSection={activeSection}
-            letterboxActive={letterboxActive}
-            onToggleLetterbox={() => setLetterboxActive(!letterboxActive)}
-            audioActive={audioActive}
-            onToggleAudio={() => setAudioActive(!audioActive)}
-          />
+        <div className="relative w-full min-h-screen bg-background selection:bg-white selection:text-black">
+          {/* Static global textures */}
+          <div className="noise-overlay" />
 
-          {/* Main Content Flow */}
+          {/* Floating Glass Navbar */}
+          <Navbar activeSection={activeSection} />
+
+          {/* Component Sections */}
           <main>
             <Hero />
             <About />
-            <VideoShowcase />
-            <ColorGradingStudio />
-            <CreativeProjects />
             <Experience />
             <Services />
+            <VideoShowcase />
+            <CreativeProjects />
             <Skills />
             <Achievements />
             <Gallery />
+            <Testimonials />
             <Contact />
           </main>
 
           <Footer />
         </div>
       )}
-    </div>
+    </>
   );
 };
 

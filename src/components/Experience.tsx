@@ -1,145 +1,195 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Film, Briefcase, Video, Users, Layers } from 'lucide-react';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useInView } from 'framer-motion';
+import { Video, Users, Film, Briefcase } from 'lucide-react';
 
-interface ExperienceItem {
-  track: string;
+interface TimelineCardProps {
   role: string;
   company: string;
   duration: string;
-  bullets: string[];
-  tools: string[];
+  description: string[];
+  skills: string[];
   icon: React.ReactNode;
 }
 
+const TimelineCard: React.FC<TimelineCardProps> = ({ role, company, duration, description, skills, icon }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(cardRef, { once: true, margin: '-100px' });
+
+  return (
+    <div ref={cardRef} className="relative grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-8 mb-16 lg:mb-24">
+      {/* Date Column (Desktop) */}
+      <div className="md:col-span-3 text-left md:text-right flex flex-col justify-start pt-2">
+        <motion.span
+          initial={{ opacity: 0, x: -30 }}
+          animate={isInView ? { opacity: 1, x: 0 } : {}}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="font-space text-xs tracking-widest text-neutral-500 uppercase font-semibold block"
+        >
+          {duration}
+        </motion.span>
+      </div>
+
+      {/* Bullet / Icon Column */}
+      <div className="md:col-span-1 flex flex-col items-center relative py-2 md:py-0">
+        <motion.div
+          initial={{ scale: 0, opacity: 0 }}
+          animate={isInView ? { scale: 1, opacity: 1 } : {}}
+          transition={{ type: 'spring', stiffness: 300, damping: 20, delay: 0.1 }}
+          className="w-10 h-10 rounded-full bg-[#111111] border border-white/10 flex items-center justify-center text-white z-10 shadow-lg group hover:border-white/30 transition-colors"
+        >
+          {icon}
+        </motion.div>
+      </div>
+
+      {/* Content Card Column */}
+      <div className="md:col-span-8 text-left">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+          className="glass-panel rounded-2xl p-6 lg:p-8 hover:border-white/10 transition-colors duration-500 shadow-xl"
+        >
+          <span className="font-space text-xs font-bold text-neutral-400 uppercase tracking-widest block mb-1">
+            {company}
+          </span>
+          <h3 className="font-space text-xl lg:text-2xl font-bold text-white mb-4">
+            {role}
+          </h3>
+
+          <ul className="font-satoshi text-sm lg:text-base text-neutral-400 font-light space-y-3 mb-6 list-disc list-inside">
+            {description.map((bullet, idx) => (
+              <li key={idx} className="leading-relaxed">
+                <span className="pl-1 text-neutral-300">{bullet}</span>
+              </li>
+            ))}
+          </ul>
+
+          {/* Pill tags */}
+          <div className="flex flex-wrap gap-2">
+            {skills.map((skill, idx) => (
+              <span
+                key={idx}
+                className="bg-white/5 border border-white/5 px-3 py-1 rounded-full font-satoshi text-[10px] uppercase tracking-wider text-neutral-300"
+              >
+                {skill}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  );
+};
+
 export const Experience: React.FC = () => {
-  const experiences: ExperienceItem[] = [
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  // Track scroll inside the timeline container to animate vertical line
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ['start center', 'end center'],
+  });
+
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
+  const experienceData = [
     {
-      track: 'V1 TRACK • COMMERCIAL EDITING',
-      role: 'Video Editor & Editing Trainer',
+      role: 'Video Editor & Video Editing Trainer',
       company: 'Millets The Best Food, Hyderabad',
-      duration: 'NOV 2024 – FEB 2025',
-      bullets: [
-        'Edited high-converting promotional reels & social media campaign videos for brand marketing.',
-        'Mentored and trained video editing interns in NLE workflows, color correction, and pacing.',
-        'Produced short-form content optimized for maximum Instagram Reels and YouTube Shorts retention.'
+      duration: 'Nov 2024 – Feb 2025',
+      description: [
+        'Edited high-conversion promotional and product videos for social media campaigns.',
+        'Structured post-production workflows and trained interns in video editing tools and guidelines.',
+        'Produced short-form content optimized specifically for Instagram Reels & YouTube Shorts.'
       ],
-      tools: ['Premiere Pro', 'CapCut Pro', 'DaVinci Resolve', 'Social Analytics'],
-      icon: <Briefcase className="w-4 h-4 text-cyan-400" />
+      skills: ['Premiere Pro', 'CapCut', 'Workflows', 'Social Media Strategy', 'Mentoring'],
+      icon: <Briefcase className="w-4 h-4" />
     },
     {
-      track: 'V2 TRACK • AI & FREELANCE DIRECTING',
-      role: 'Freelance Videographer & AI Content Editor',
-      company: 'Startups, Local Brands & Influencers',
-      duration: '2024 – PRESENT',
-      bullets: [
-        'Handled end-to-end video production from pre-production shot design to final master export.',
-        'Professional reel editing for local brands, boosting viewer retention across social platforms.',
-        'Evaluated AI video synthesis models (Google Veo, Kling AI, RunwayML, Pika) to generate commercial assets.'
+      role: 'Freelance Videographer & Editor',
+      company: 'Startups, Local Clients & Influencers',
+      duration: '2024 – Present',
+      description: [
+        'Executed end-to-end video production, managing scripting, filming, and post-production delivery.',
+        'Collaborated directly with local brands to double engagement through optimized Reels pacing.',
+        'Evaluated AI video creation platforms (Kling AI, Google Veo, Runway, Pika) to generate commercial assets.'
       ],
-      tools: ['Google Veo', 'Kling AI', 'RunwayML', 'Pika Labs', 'DaVinci Resolve'],
-      icon: <Video className="w-4 h-4 text-cyan-400" />
+      skills: ['DaVinci Resolve', 'Runway', 'Kling AI', 'Google Veo', 'Pika', 'Sound Design'],
+      icon: <Video className="w-4 h-4" />
     },
     {
-      track: 'V3 TRACK • SHORT FILMS & DIRECTING',
       role: 'Director & Lead Editor',
       company: 'Team Kanyarasi, Chennai',
-      duration: '2022 – PRESENT',
-      bullets: [
-        'Directed and edited narrative short films and high-impact music reels using Adobe Premiere & CapCut.',
-        'Executed color grading DI passes, dramatic pacing, and theatrical sound foley design.',
-        'Coordinated film crews, camera staging, and post-production delivery schedules.'
+      duration: '2022 – Present',
+      description: [
+        'Directed, shot, and edited short films and musical recap Reels.',
+        'Crafted aesthetic narratives using professional color grading, pacing, and multi-layered sound design.',
+        'Supervised post-production workflows and led a small crew through production schedules.'
       ],
-      tools: ['Premiere Pro', 'DaVinci Resolve', 'CapCut', 'Storyboarding', 'Sound Design'],
-      icon: <Film className="w-4 h-4 text-cyan-400" />
+      skills: ['CapCut', 'Creative Direction', 'Color Grading', 'Cinematography', 'Audio Pacing'],
+      icon: <Film className="w-4 h-4" />
     },
     {
-      track: 'A1 TRACK • EVENT REELS & MEDIA',
-      role: 'Lead Video Editor',
+      role: 'Editor',
       company: 'Photography Club, IIITDM Kancheepuram',
-      duration: '2023 – PRESENT',
-      bullets: [
-        'Edited campus event highlight reels and social media promotional videos.',
-        'Increased channel engagement by 60% through rhythmic event recaps and color-matched photography.'
+      duration: '2023 – Present',
+      description: [
+        'Created visual recap packages and social assets highlighting campus events.',
+        'Produced high-energy Reels and summary clips that boosted club channel views and reach.'
       ],
-      tools: ['Lightroom', 'PicsArt', 'Canva', 'Social Media Editing'],
-      icon: <Users className="w-4 h-4 text-cyan-400" />
+      skills: ['Lightroom', 'PicsArt', 'Canva', 'Social Media Design', 'Event Highlights'],
+      icon: <Users className="w-4 h-4" />
     }
   ];
 
   return (
-    <section id="experience" className="relative w-full py-28 bg-[#050507] px-4 lg:px-12 overflow-hidden border-b border-white/10">
-      <div className="max-w-7xl mx-auto relative z-10">
+    <section 
+      id="experience" 
+      className="relative min-h-screen w-full bg-background py-24 lg:py-32 overflow-hidden px-6"
+    >
+      {/* Faded Background Text */}
+      <div className="absolute top-10 right-10 text-stroke opacity-[0.02] select-none pointer-events-none font-space font-black tracking-tighter leading-none w-full text-right fluid-bg-text">
+        HISTORY
+      </div>
+
+      <div className="max-w-6xl w-full mx-auto relative z-10">
         
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6">
-          <div>
-            <div className="flex items-center gap-2 font-timecode text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">
-              <Layers className="w-4 h-4" />
-              <span>NON-LINEAR EDITOR (NLE) TIMELINE MILESTONES</span>
-            </div>
-            <h2 className="font-mono text-4xl lg:text-7xl font-black tracking-tight text-white uppercase">
-              CAREER <span className="text-cyan-400">TIMELINE</span>
-            </h2>
-          </div>
-          <div className="font-timecode text-xs text-white/50 bg-black/60 border border-white/10 px-4 py-2 rounded-lg">
-            SEQUENCE: 2022_2026_MASTER.nle
-          </div>
+        {/* Header */}
+        <div className="text-left mb-20 lg:mb-28">
+          <span className="font-space text-xs lg:text-sm tracking-[0.3em] text-neutral-500 uppercase mb-4 block">
+            PROFESSIONAL TIMELINE
+          </span>
+          <h2 className="font-space text-4xl lg:text-5xl font-bold tracking-tight text-white">
+            Work Experience
+          </h2>
         </div>
 
-        <div className="space-y-6">
-          {experiences.map((exp, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, x: -30 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="glass-panel rounded-2xl p-6 lg:p-8 border border-white/10 shadow-[0_10px_30px_rgba(0,0,0,0.8)] relative group hover:border-cyan-400/50 transition-all duration-300"
-            >
-              <div className="absolute top-0 left-0 bottom-0 w-1 bg-white/20 group-hover:bg-cyan-400 transition-colors rounded-l-2xl" />
+        {/* Timeline Container */}
+        <div ref={containerRef} className="relative">
+          
+          {/* Vertical Progress Line (Desktop) */}
+          <div className="absolute left-5 md:left-1/2 -translate-x-1/2 top-2 bottom-2 w-[1px] bg-neutral-800">
+            <motion.div 
+              style={{ scaleY, originY: 0 }}
+              className="w-full h-full bg-gradient-to-b from-white via-purple-500 to-orange-500" 
+            />
+          </div>
 
-              <div className="flex flex-col lg:flex-row justify-between lg:items-center gap-4 mb-4 pb-4 border-b border-white/10 font-timecode">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-black/60 border border-white/10">
-                    {exp.icon}
-                  </div>
-                  <div>
-                    <span className="text-[10px] text-cyan-400 font-bold tracking-widest block uppercase">
-                      {exp.track}
-                    </span>
-                    <h3 className="font-mono text-xl lg:text-2xl font-black text-white uppercase">
-                      {exp.role}
-                    </h3>
-                  </div>
-                </div>
+          {/* Cards Mapping */}
+          <div className="flex flex-col">
+            {experienceData.map((exp, idx) => (
+              <TimelineCard
+                key={idx}
+                role={exp.role}
+                company={exp.company}
+                duration={exp.duration}
+                description={exp.description}
+                skills={exp.skills}
+                icon={exp.icon}
+              />
+            ))}
+          </div>
 
-                <div className="text-right">
-                  <span className="text-xs font-bold text-white/80 block">{exp.company}</span>
-                  <span className="text-[11px] text-white/40">{exp.duration}</span>
-                </div>
-              </div>
-
-              <ul className="space-y-2 mb-6 text-xs text-white/70 font-sans leading-relaxed">
-                {exp.bullets.map((bullet, idx) => (
-                  <li key={idx} className="flex items-start gap-2">
-                    <span className="text-cyan-400 font-mono mt-0.5">•</span>
-                    <span>{bullet}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <div className="flex flex-wrap gap-2 font-timecode text-[10px]">
-                {exp.tools.map((tool, idx) => (
-                  <span
-                    key={idx}
-                    className="px-3 py-1 rounded bg-white/5 border border-white/10 text-white/70 font-bold"
-                  >
-                    {tool}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
         </div>
 
       </div>
