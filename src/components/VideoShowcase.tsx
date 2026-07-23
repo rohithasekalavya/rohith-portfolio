@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, X, ChevronRight } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 interface VideoProject {
   id: string;
@@ -258,7 +259,7 @@ export const VideoShowcase: React.FC = () => {
 
                 <video
                   ref={el => { videoRefs.current[project.id] = el; }}
-                  src={project.src}
+                  src={getAssetUrl(project.src)}
                   autoPlay
                   muted={isMuted}
                   loop
@@ -337,7 +338,7 @@ export const VideoShowcase: React.FC = () => {
                 <div className="relative w-full h-full overflow-hidden">
                   <video
                     ref={el => { videoRefs.current[project.id] = el; }}
-                    src={project.src}
+                    src={getAssetUrl(project.src)}
                     preload="metadata"
                     muted={isMuted}
                     loop
@@ -401,7 +402,7 @@ export const VideoShowcase: React.FC = () => {
               {/* Left Column: Widescreen Video Player */}
               <div className="lg:col-span-7 bg-black flex items-center justify-center relative aspect-video lg:aspect-auto min-h-[300px] lg:min-h-[500px]">
                 <video
-                  src={activeVideo.src}
+                  src={getAssetUrl(activeVideo.src)}
                   controls
                   autoPlay
                   className="w-full h-full object-contain"

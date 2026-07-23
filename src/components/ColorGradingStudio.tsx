@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Sliders, Sparkles, CheckCircle2, Film } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 interface LUTPreset {
   id: string;
@@ -125,7 +126,7 @@ export const ColorGradingStudio: React.FC = () => {
         >
           <div className="absolute inset-0 lut-raw">
             <img 
-              src="/photos/paradise_poster.png" 
+              src={getAssetUrl("/photos/paradise_poster.png")} 
               alt="RAW LOG Footage" 
               className="w-full h-full object-cover"
             />
@@ -139,7 +140,7 @@ export const ColorGradingStudio: React.FC = () => {
             style={{ clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)` }}
           >
             <img 
-              src="/photos/paradise_poster.png" 
+              src={getAssetUrl("/photos/paradise_poster.png")} 
               alt="Graded Footage" 
               className="w-full h-full object-cover"
             />

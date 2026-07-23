@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 interface GalleryItem {
   id: string;
@@ -206,7 +207,7 @@ export const Gallery: React.FC = () => {
               <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/[0.04] to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-10" />
 
               <img 
-                src={photo.src} 
+                src={getAssetUrl(photo.src)} 
                 alt={photo.title}
                 loading="lazy"
                 className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 grayscale group-hover:grayscale-0"
@@ -281,7 +282,7 @@ export const Gallery: React.FC = () => {
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={photos[activePhotoIdx].src}
+                src={getAssetUrl(photos[activePhotoIdx].src)}
                 alt={photos[activePhotoIdx].title}
                 className="max-w-full max-h-[75vh] object-contain rounded-xl border border-white/10 shadow-2xl"
               />

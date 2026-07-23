@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Film, Award, PlayCircle } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 interface CreativeProject {
   id: string;
@@ -94,7 +95,7 @@ export const CreativeProjects: React.FC = () => {
             >
               {/* Background Image */}
               <img 
-                src={project.image} 
+                src={getAssetUrl(project.image)} 
                 alt={project.title} 
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-[1.5s] ease-out group-hover:scale-105 group-hover:blur-[2px] grayscale group-hover:grayscale-0"
               />

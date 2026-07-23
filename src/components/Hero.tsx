@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { ArrowDown, Mail } from 'lucide-react';
+import { getAssetUrl } from '../utils/assets';
 
 export const Hero: React.FC = () => {
   const titles = [
@@ -239,9 +240,9 @@ export const Hero: React.FC = () => {
             
             {/* The Portrait Image */}
             <img 
-              src="/photos/WhatsApp Image 2026-06-27 at 15.44.21.jpeg" 
-              alt="Rohith Arem Portrait" 
-              className="w-full h-full object-cover scale-[1.05] group-hover:scale-[1.08] transition-transform duration-700 ease-out grayscale hover:grayscale-0 duration-[1.5s]"
+               src={getAssetUrl("/photos/WhatsApp Image 2026-06-27 at 15.44.21.jpeg")} 
+               alt="Rohith Arem Portrait" 
+               className="w-full h-full object-cover scale-[1.05] group-hover:scale-[1.08] transition-transform duration-700 ease-out grayscale hover:grayscale-0 duration-[1.5s]"
             />
 
             {/* Glowing Accent Ring */}

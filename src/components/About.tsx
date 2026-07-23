@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { motion, useInView, useMotionValue, useSpring } from 'framer-motion';
+import { getAssetUrl } from '../utils/assets';
 
 interface StatCounterProps {
   value: number;
@@ -65,7 +66,7 @@ export const About: React.FC = () => {
             <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px] pointer-events-none" />
             
             <img 
-              src="/photos/WhatsApp Image 2026-06-27 at 15.44.22.jpeg" 
+              src={getAssetUrl("/photos/WhatsApp Image 2026-06-27 at 15.44.22.jpeg")} 
               alt="Rohith Arem About Portrait" 
               className="w-full h-full object-cover grayscale brightness-90 hover:grayscale-0 transition-all duration-[1s]"
             />
