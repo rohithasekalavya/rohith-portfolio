@@ -9,31 +9,20 @@ interface LoaderProps {
 export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
   const [step, setStep] = useState(0);
-  const [collapseTH, setCollapseTH] = useState(false);
   const [isDone, setIsDone] = useState(false);
 
   // Animation timeline steps
   useEffect(() => {
     const timers = [
-      setTimeout(() => setStep(1), 1200),      // Step 1: Add 'THIS' -> "HI THIS"
-      setTimeout(() => setStep(2), 2400),      // Step 2: Add word 3 as "THIS" (TH is dimmed)
-      setTimeout(() => setStep(3), 4000),      // Step 3: Slide "HI THIS IS" to the top
-      setTimeout(() => setStep(4), 5000),      // Step 4: Show "ROHITH" in the center (RO + HI + TH)
-      setTimeout(() => setIsDone(true), 6800),  // Step 5: Complete loader and start exit transition
+      setTimeout(() => setStep(1), 1200),      // Step 1: HI morphs to THIS (T & S added)
+      setTimeout(() => setStep(2), 2400),      // Step 2: THIS morphs to IS (T & H removed)
+      setTimeout(() => setStep(3), 3800),      // Step 3: HI THIS IS slides to the top
+      setTimeout(() => setStep(4), 4800),      // Step 4: Show "ROHITH" in center (RO + HI + TH)
+      setTimeout(() => setIsDone(true), 6800),  // Step 5: Complete loader and exit
     ];
 
     return () => timers.forEach(clearTimeout);
   }, []);
-
-  // Sub-step: Collapse 'TH' after word 3 is added to leave 'IS'
-  useEffect(() => {
-    if (step === 2) {
-      const timer = setTimeout(() => {
-        setCollapseTH(true);
-      }, 600); // Wait 600ms for user to see the word "THIS" before collapsing "TH"
-      return () => clearTimeout(timer);
-    }
-  }, [step]);
 
   // Smooth continuous progress bar animation
   useEffect(() => {
@@ -60,7 +49,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
     if (isDone) {
       const timer = setTimeout(() => {
         onComplete();
-      }, 700); // Match exit transition duration
+      }, 700);
       return () => clearTimeout(timer);
     }
   }, [isDone, onComplete]);
@@ -107,102 +96,101 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
           </div>
 
           {/* Center Stage Animation */}
-          <div className="relative flex flex-col items-center justify-center my-auto w-full z-30">
+          <div className="relative flex flex-col items-center justify-center my-auto w-full h-[50vh] z-30">
             
-            {/* Phase 1-3 Greeting Text: "HI THIS IS" */}
-            <motion.div
-              animate={{
-                y: step >= 3 ? "-18vh" : "0vh",
-                scale: step >= 3 ? 0.72 : 1,
-              }}
-              transition={{ duration: 1.1, ease: [0.76, 0, 0.24, 1] }}
-              className="absolute z-20 flex items-center justify-center font-mono text-3xl lg:text-5xl font-light tracking-[0.15em] text-white/95 gap-[0.4em]"
-            >
-              {/* Word 1: HI */}
-              <motion.div layout className="flex items-center">
-                <span>H</span>
-                <span>I</span>
-              </motion.div>
+            {/* Steps 0, 1, 2: Morphing Text in Center */}
+            <AnimatePresence mode="wait">
+              {step < 3 && (
+                <motion.div
+                  key={`center-step-${step}`}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 1.05 }}
+                  transition={{ duration: 0.4 }}
+                  className="absolute z-20 flex items-center justify-center font-mono text-4xl lg:text-6xl font-light tracking-[0.15em] text-white"
+                >
+                  {step === 0 && (
+                    <div className="flex items-center">
+                      <span>H</span>
+                      <span>I</span>
+                    </div>
+                  )}
 
-              {/* Word 2: THIS (Formed by adding T and S to HI) */}
-              <AnimatePresence>
-                {step >= 1 && (
-                  <motion.div
-                    layout
-                    initial={{ opacity: 0, width: 0 }}
-                    animate={{ opacity: 1, width: 'auto' }}
-                    exit={{ opacity: 0, width: 0 }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
-                    className="flex items-center overflow-hidden"
-                    key="word-this"
-                  >
-                    {/* T added to left */}
-                    <motion.span
-                      initial={{ x: -12, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.1, duration: 0.4 }}
-                    >
-                      T
-                    </motion.span>
-                    {/* HI in the middle */}
-                    <span>H</span>
-                    <span>I</span>
-                    {/* S added to right */}
-                    <motion.span
-                      initial={{ x: 12, opacity: 0 }}
-                      animate={{ x: 0, opacity: 1 }}
-                      transition={{ delay: 0.1, duration: 0.4 }}
-                    >
-                      S
-                    </motion.span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
+                  {step === 1 && (
+                    <div className="flex items-center">
+                      {/* T is added on left */}
+                      <motion.span
+                        initial={{ x: -12, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ duration: 0.4, ease: 'easeOut' }}
+                      >
+                        T
+                      </motion.span>
+                      {/* HI in center */}
+                      <span>H</span>
+                      <span>I</span>
+                      {/* S is added on right */}
+                      <motion.span
+                        initial={{ x: 12, opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        transition={{ duration: 0.4, ease: 'easeOut' }}
+                      >
+                        S
+                      </motion.span>
+                    </div>
+                  )}
 
-              {/* Word 3: IS (Formed by showing THIS and removing T & H) */}
-              <AnimatePresence>
-                {step >= 2 && (
-                  <motion.div
-                    layout
-                    initial={{ opacity: 0, width: 0 }}
-                    animate={{ opacity: 1, width: 'auto' }}
-                    exit={{ opacity: 0, width: 0 }}
-                    transition={{ duration: 0.6, ease: 'easeOut' }}
-                    className="flex items-center overflow-hidden text-cyan-400"
-                    key="word-is"
-                  >
-                    {/* T and H are removed/collapsed */}
-                    <motion.span
-                      animate={{
-                        width: collapseTH ? 0 : 'auto',
-                        opacity: collapseTH ? 0 : 0.6,
-                        marginRight: collapseTH ? 0 : '0.05em',
-                      }}
-                      transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
-                      className="overflow-hidden inline-block text-white/50"
-                    >
-                      TH
-                    </motion.span>
-                    {/* I and S are left */}
-                    <span>I</span>
-                    <span>S</span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
+                  {step === 2 && (
+                    <div className="flex items-center text-cyan-400">
+                      {/* T & H are removed */}
+                      <motion.span
+                        initial={{ width: 'auto', opacity: 1 }}
+                        animate={{ width: 0, opacity: 0 }}
+                        transition={{ duration: 0.6, delay: 0.4, ease: [0.76, 0, 0.24, 1] }}
+                        className="overflow-hidden inline-block text-white/50"
+                      >
+                        TH
+                      </motion.span>
+                      {/* I & S are seen */}
+                      <span>I</span>
+                      <span>S</span>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
 
-            {/* Phase 4 Reveal: "ROHITH" (RO + HI + TH) */}
+            {/* Step 3: HI THIS IS slides to top */}
+            <AnimatePresence>
+              {step >= 3 && (
+                <motion.div
+                  initial={{ y: 50, opacity: 0, scale: 1.1 }}
+                  animate={{
+                    y: step >= 4 ? "-18vh" : "0vh",
+                    opacity: 1,
+                    scale: step >= 4 ? 0.72 : 1
+                  }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1.0, ease: [0.76, 0, 0.24, 1] }}
+                  className="absolute z-20 font-mono text-3xl lg:text-5xl font-light tracking-[0.2em] text-white"
+                >
+                  HI THIS IS
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Step 4: ROHITH (RO + HI + TH) is written in center */}
             <AnimatePresence>
               {step >= 4 && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.8, ease: 'easeOut' }}
-                  className="absolute z-20 flex flex-col items-center justify-center text-center"
+                  className="absolute z-20 flex flex-col items-center justify-center text-center mt-[10vh]"
                   key="rohith-reveal"
                 >
                   <div className="flex items-center justify-center text-5xl lg:text-8xl font-black tracking-[0.05em] text-white uppercase drop-shadow-[0_0_40px_rgba(255,255,255,0.45)]">
-                    {/* RO added to left */}
+                    {/* RO */}
                     <motion.span
                       initial={{ x: -35, opacity: 0, width: 0 }}
                       animate={{ x: 0, opacity: 1, width: 'auto' }}
@@ -212,7 +200,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
                       RO
                     </motion.span>
 
-                    {/* HI in center */}
+                    {/* HI */}
                     <motion.span
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
@@ -222,7 +210,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
                       HI
                     </motion.span>
 
-                    {/* TH added to right */}
+                    {/* TH */}
                     <motion.span
                       initial={{ x: 35, opacity: 0, width: 0 }}
                       animate={{ x: 0, opacity: 1, width: 'auto' }}
