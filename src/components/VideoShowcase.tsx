@@ -401,12 +401,12 @@ export const VideoShowcase: React.FC = () => {
             >
               {/* Left Column: Widescreen Video Player */}
               <div className="lg:col-span-7 bg-black flex items-center justify-center relative aspect-video lg:aspect-auto min-h-[300px] lg:min-h-[500px]">
-                <video
-                  src={getAssetUrl(activeVideo.src)}
-                  controls
-                  autoPlay
-                  className="w-full h-full object-contain"
-                />
+                 <video
+                   src={activeVideo ? getAssetUrl(activeVideo.src) : ''}
+                   controls
+                   autoPlay
+                   className="w-full h-full object-contain"
+                 />
               </div>
 
               {/* Right Column: Case Details */}

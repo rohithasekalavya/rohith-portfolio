@@ -160,6 +160,8 @@ export const Gallery: React.FC = () => {
     }
   ];
 
+  const activePhoto = activePhotoIdx !== null ? photos[activePhotoIdx] : null;
+
   const handlePrev = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (activePhotoIdx !== null) {
@@ -281,20 +283,24 @@ export const Gallery: React.FC = () => {
               className="relative max-w-4xl max-h-[80vh] flex flex-col items-center justify-center pointer-events-auto"
               onClick={(e) => e.stopPropagation()}
             >
-              <img
-                src={getAssetUrl(photos[activePhotoIdx].src)}
-                alt={photos[activePhotoIdx].title}
-                className="max-w-full max-h-[75vh] object-contain rounded-xl border border-white/10 shadow-2xl"
-              />
+              {activePhoto && (
+                <>
+                  <img
+                    src={getAssetUrl(activePhoto.src)}
+                    alt={activePhoto.title}
+                    className="max-w-full max-h-[75vh] object-contain rounded-xl border border-white/10 shadow-2xl"
+                  />
 
-              <div className="absolute -bottom-16 left-0 right-0 text-center flex flex-col gap-1 select-none">
-                <span className="font-space text-lg font-bold text-white">
-                  {photos[activePhotoIdx].title}
-                </span>
-                <span className="font-satoshi text-xs text-neutral-400 uppercase tracking-widest">
-                  {photos[activePhotoIdx].category}
-                </span>
-              </div>
+                  <div className="absolute -bottom-16 left-0 right-0 text-center flex flex-col gap-1 select-none">
+                    <span className="font-space text-lg font-bold text-white">
+                      {activePhoto.title}
+                    </span>
+                    <span className="font-satoshi text-xs text-neutral-400 uppercase tracking-widest">
+                      {activePhoto.category}
+                    </span>
+                  </div>
+                </>
+              )}
             </motion.div>
 
           </motion.div>
