@@ -17,7 +17,7 @@ export const Skills: React.FC = () => {
     {
       category: 'Video Editing',
       icon: <Video className="w-4 h-4 text-white" />,
-      glowColor: 'group-hover:border-purple-500/30 group-hover:shadow-purple-500/5',
+      glowColor: 'group-hover:border-cyan-500/20 group-hover:shadow-cyan-500/5',
       skills: [
         'DaVinci Resolve',
         'Adobe Premiere Pro',
@@ -33,7 +33,7 @@ export const Skills: React.FC = () => {
     {
       category: 'AI Tools',
       icon: <Cpu className="w-4 h-4 text-white" />,
-      glowColor: 'group-hover:border-orange-500/30 group-hover:shadow-orange-500/5',
+      glowColor: 'group-hover:border-cyan-500/20 group-hover:shadow-cyan-500/5',
       skills: [
         'Google Veo',
         'Kling AI',
@@ -49,7 +49,7 @@ export const Skills: React.FC = () => {
     {
       category: 'Photography',
       icon: <Camera className="w-4 h-4 text-white" />,
-      glowColor: 'group-hover:border-emerald-500/30 group-hover:shadow-emerald-500/5',
+      glowColor: 'group-hover:border-cyan-500/20 group-hover:shadow-cyan-500/5',
       skills: [
         'Videography',
         'Lightroom Classic',
@@ -62,7 +62,7 @@ export const Skills: React.FC = () => {
     {
       category: 'Design & Motion',
       icon: <Palette className="w-4 h-4 text-white" />,
-      glowColor: 'group-hover:border-pink-500/30 group-hover:shadow-pink-500/5',
+      glowColor: 'group-hover:border-cyan-500/20 group-hover:shadow-cyan-500/5',
       skills: [
         'Canva',
         'Adobe After Effects',
@@ -75,7 +75,7 @@ export const Skills: React.FC = () => {
     {
       category: 'Strategy & Soft',
       icon: <ShieldCheck className="w-4 h-4 text-white" />,
-      glowColor: 'group-hover:border-blue-500/30 group-hover:shadow-blue-500/5',
+      glowColor: 'group-hover:border-cyan-500/20 group-hover:shadow-cyan-500/5',
       skills: [
         'Visual Storytelling',
         'Scriptwriting',
@@ -110,7 +110,7 @@ export const Skills: React.FC = () => {
             <span className="font-space text-xs lg:text-sm tracking-[0.3em] text-neutral-500 uppercase mb-4 block">
               EXPERTISE & WORKFLOWS
             </span>
-            <h2 className="font-space text-4xl lg:text-5xl font-bold tracking-tight text-white">
+            <h2 className="font-cinzel text-4xl lg:text-5xl font-light tracking-tight text-white uppercase">
               Skills & Tech Stack
             </h2>
           </div>
@@ -150,7 +150,7 @@ export const Skills: React.FC = () => {
                 <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center">
                   {group.icon}
                 </div>
-                <h3 className="font-space text-lg font-bold text-white uppercase tracking-wider">
+                <h3 className="font-cinzel text-base lg:text-lg font-medium text-white uppercase tracking-wider">
                   {group.category}
                 </h3>
               </div>

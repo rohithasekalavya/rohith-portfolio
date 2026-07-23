@@ -85,7 +85,7 @@ export const Services: React.FC = () => {
           <span className="font-space text-xs lg:text-sm tracking-[0.3em] text-neutral-500 uppercase mb-4 block">
             CORE CAPABILITIES
           </span>
-          <h2 className="font-space text-4xl lg:text-5xl font-bold tracking-tight text-white">
+          <h2 className="font-cinzel text-4xl lg:text-5xl font-light tracking-tight text-white uppercase">
             My Services
           </h2>
         </div>
@@ -114,7 +114,7 @@ export const Services: React.FC = () => {
                   {service.icon}
                 </div>
 
-                <h3 className="font-space text-xl font-bold text-white mb-3">
+                <h3 className="font-cinzel text-lg font-medium text-white mb-3">
                   {service.title}
                 </h3>
 
@@ -138,7 +138,7 @@ export const Services: React.FC = () => {
               </div>
 
               {/* Hover bottom bar indicator */}
-              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-purple-500 to-orange-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
+              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-cyan-500 to-blue-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
             </motion.div>
           ))}
         </div>

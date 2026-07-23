@@ -19,8 +19,8 @@ export const Contact: React.FC = () => {
             <span className="font-space text-xs lg:text-sm tracking-[0.3em] text-neutral-500 uppercase mb-4 block">
               GET IN TOUCH
             </span>
-            <h2 className="font-space text-4xl lg:text-5xl font-bold tracking-tight text-white mb-8">
-              Start a Conversation
+            <h2 className="font-cinzel text-4xl lg:text-5xl font-light tracking-tight text-white mb-8 uppercase">
+              Let's Connect
             </h2>
             <p className="font-satoshi text-sm text-neutral-400 font-light leading-relaxed mb-12 max-w-sm select-none">
               Have a short film, visual reel, stop-motion commercial, or campaign edit you want to discuss? Let's build something unforgettable together.
@@ -86,7 +86,7 @@ export const Contact: React.FC = () => {
               <span className="font-space text-xs tracking-[0.25em] text-neutral-500 uppercase mb-6 block">
                 COLLABORATION INQUIRIES
               </span>
-              <h3 className="font-space text-3xl lg:text-5xl font-bold text-white mb-6 leading-tight select-none">
+              <h3 className="font-cinzel text-3xl lg:text-5xl font-light text-white mb-6 leading-tight select-none uppercase">
                 Let's make something <span className="text-gradient">legendary</span>.
               </h3>
               <p className="font-satoshi text-sm lg:text-base text-neutral-400 font-light leading-relaxed max-w-lg mb-10 select-none">
