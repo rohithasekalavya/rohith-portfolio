@@ -103,7 +103,7 @@ export const About: React.FC = () => {
             className="font-satoshi text-base lg:text-lg text-neutral-300 font-light leading-relaxed space-y-6 mb-12 max-w-2xl"
           >
             <p>
-              I am a final-year B.Tech student in Electronics and Communication Engineering at <strong>IIITDM Kancheepuram, Chennai</strong>. Bridging the gap between creative visual execution and emerging AI technology, I craft high-impact content for brands, creators, and digital spaces.
+              I am a graduate with a B.Tech in Electronics and Communication Engineering from <strong>IIITDM Kancheepuram, Chennai</strong>. Bridging the gap between creative visual execution and emerging AI technology, I craft high-impact content for brands, creators, and digital spaces.
             </p>
             <p>
               From directing award-winning short films at collegiate festivals to training teams, managing client content strategies, and benchmarking next-generation AI video generators like <strong>Runway Gen-3, Kling, and Google Veo</strong>, my process centers on strict editing precision, visual pacing, and premium aesthetic execution.

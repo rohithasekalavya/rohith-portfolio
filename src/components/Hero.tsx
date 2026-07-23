@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { ArrowDown, Mail } from 'lucide-react';
+import { ArrowDown, Play, FileText } from 'lucide-react';
 import { getAssetUrl } from '../utils/assets';
 
 export const Hero: React.FC = () => {
   const titles = [
-    'Digital Creator',
-    'AI Content Creator',
-    'Video Editor',
-    'Social Media Marketer',
-    'Graphic Designer'
+    'VIDEO EDITOR',
+    'AI CREATIVE DIRECTOR',
+    'CINEMATOGRAPHER',
+    'VISUAL STORYTELLER',
+    'POST-PRODUCTION SPECIALIST'
   ];
 
   const [titleIndex, setTitleIndex] = useState(0);
@@ -17,25 +17,24 @@ export const Hero: React.FC = () => {
   useEffect(() => {
     const timer = setInterval(() => {
       setTitleIndex((prev) => (prev + 1) % titles.length);
-    }, 3000);
+    }, 2800);
     return () => clearInterval(timer);
   }, []);
 
+  // 3D Parallax Mouse Movement
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const springConfig = { damping: 30, stiffness: 120 };
+  const springConfig = { damping: 40, stiffness: 100 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  const purpleX = useTransform(smoothX, [-0.5, 0.5], [-35, 35]);
-  const purpleY = useTransform(smoothY, [-0.5, 0.5], [-35, 35]);
-
-  const orangeX = useTransform(smoothX, [-0.5, 0.5], [35, -35]);
-  const orangeY = useTransform(smoothY, [-0.5, 0.5], [35, -35]);
-
-  const portraitX = useTransform(smoothX, [-0.5, 0.5], [-12, 12]);
-  const portraitY = useTransform(smoothY, [-0.5, 0.5], [-12, 12]);
+  // Parallax layers transform mapping
+  const bgX = useTransform(smoothX, [-0.5, 0.5], [-20, 20]);
+  const bgY = useTransform(smoothY, [-0.5, 0.5], [-20, 20]);
+  
+  const textX = useTransform(smoothX, [-0.5, 0.5], [-10, 10]);
+  const textY = useTransform(smoothY, [-0.5, 0.5], [-10, 10]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -49,7 +48,7 @@ export const Hero: React.FC = () => {
   const handleScrollToProjects = () => {
     const elem = document.getElementById('video-work');
     if (elem) {
-      const offset = 100;
+      const offset = 80;
       window.scrollTo({
         top: elem.getBoundingClientRect().top + window.scrollY - offset,
         behavior: 'smooth'
@@ -70,187 +69,177 @@ export const Hero: React.FC = () => {
   return (
     <section 
       id="home" 
-      className="relative min-h-screen w-full flex items-center justify-center bg-background overflow-hidden px-6 pt-32 pb-20 lg:pt-40 lg:pb-24"
+      className="relative min-h-screen w-full flex flex-col justify-between bg-[#050507] overflow-hidden p-8 lg:p-12 select-none"
     >
-      {/* Background Interactive Lights (Purple & Orange Glows) */}
-      <motion.div 
+      {/* SVG Silhouette Mask for 3D Text Occlusion (shared with Loader) */}
+      <svg className="absolute w-0 h-0">
+        <defs>
+          <mask id="hero-person-silhouette" maskContentUnits="objectBoundingBox">
+            <rect width="1" height="1" fill="white" />
+            <polygon points="0.30,1.0 0.38,0.58 0.44,0.36 0.44,0.11 0.56,0.11 0.56,0.36 0.62,0.58 0.70,1.0" fill="black" />
+          </mask>
+        </defs>
+      </svg>
+
+      {/* Fullscreen Interactive Background (matching Loader final state) */}
+      <motion.div
         style={{
-          x: purpleX,
-          y: purpleY,
+          x: bgX,
+          y: bgY,
+          scale: 1.05,
+          backgroundImage: `url(${getAssetUrl('/photos/loader_portrait.png')})`,
         }}
-        className="absolute top-1/4 left-1/4 w-[30vw] h-[30vw] rounded-full bg-glow-purple blur-[120px] pointer-events-none opacity-60 animate-pulse-glow"
-      />
-      <motion.div 
-        style={{
-          x: orangeX,
-          y: orangeY,
-          animationDelay: '5s'
-        }}
-        className="absolute bottom-1/4 right-1/4 w-[35vw] h-[35vw] rounded-full bg-glow-orange blur-[140px] pointer-events-none opacity-40 animate-pulse-glow"
+        className="absolute inset-0 z-0 bg-cover bg-center"
       />
 
-      {/* Grid Overlay Texture */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.01)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.01)_1px,transparent_1px)] bg-[size:100px_100px] pointer-events-none opacity-40" />
+      {/* Cinematic Vignette Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#050507]/90 via-[#050507]/40 to-[#050507]/90 z-10 pointer-events-none" />
 
-      {/* Main Container */}
-      <div className="max-w-7xl w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-6 items-center z-10">
+      {/* Drifting Cinematic Spotlight Smoke */}
+      <div className="absolute inset-0 z-[12] overflow-hidden pointer-events-none opacity-50 mix-blend-screen">
+        <motion.div
+          animate={{
+            x: [-150, 150, -150],
+            y: [-90, 90, -90],
+            scale: [1, 1.25, 1],
+            rotate: [0, 180, 360],
+          }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          className="absolute -inset-[50%] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.12)_0%,transparent_60%)] filter blur-3xl"
+        />
+        <motion.div
+          animate={{
+            x: [150, -150, 150],
+            y: [90, -90, 90],
+            scale: [1.25, 0.95, 1.25],
+            rotate: [360, 180, 0],
+          }}
+          transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+          className="absolute -inset-[50%] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08)_0%,transparent_55%)] filter blur-3xl"
+        />
+      </div>
+
+      {/* Volumetric Spotlights and Dust Overlay */}
+      <div className="absolute inset-0 z-[13] overflow-hidden pointer-events-none">
+        <div className="absolute top-0 left-0 w-[50%] h-[150%] bg-gradient-to-br from-white/10 to-transparent origin-top-left -rotate-12 blur-2xl opacity-60" />
+        <div className="absolute inset-0 bg-[radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:32px_32px] opacity-40 animate-pulse-glow" />
+      </div>
+
+      {/* Film grain / scanlines */}
+      <div className="film-grain z-20 pointer-events-none" />
+      <div className="scanlines z-20 pointer-events-none" />
+
+      {/* Top Sentence Spacer (Fades in) */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 0.8, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+        className="w-full flex justify-center pt-20 z-20 relative font-cinzel text-sm lg:text-lg tracking-[0.25em] text-white/80"
+      >
+        HI THIS IS
+      </motion.div>
+
+      {/* Center 3D Silhouette Occluded Title */}
+      <div className="relative flex flex-col items-center justify-center my-auto w-full h-[50vh] z-30">
+        <motion.div
+          style={{ x: textX, y: textY }}
+          className="relative w-full flex flex-col items-center justify-center"
+        >
+          {/* Masked Background Title (passes behind portrait) */}
+          <motion.div
+            initial={{ scale: 0.88, opacity: 0, filter: 'blur(6px)' }}
+            animate={{ scale: 0.88, opacity: 0.42, filter: 'blur(6px)' }}
+            transition={{ duration: 1.0, delay: 0.4 }}
+            className="absolute z-10 flex items-center justify-center text-6xl lg:text-[8rem] font-cinzel font-normal tracking-[0.15em] text-gold-metallic select-none pointer-events-none"
+            style={{ mask: 'url(#hero-person-silhouette)', WebkitMask: 'url(#hero-person-silhouette)' }}
+          >
+            <span>RO</span>
+            <span>HI</span>
+            <span>TH</span>
+          </motion.div>
+
+          {/* Floating Credits Line */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 0.6, y: 0 }}
+            transition={{ duration: 1.0, delay: 0.6 }}
+            className="absolute mt-[22vh] text-center"
+          >
+            <p className="font-timecode text-xs tracking-[0.5em] text-cyan-400 uppercase">
+              DIRECTORIAL & POST-PRODUCTION CUTS
+            </p>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* Interactive HUD HUD Elements (Fades in on edges) */}
+      <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 items-end z-30 relative mt-auto">
         
-        {/* Left Side Info */}
-        <div className="lg:col-span-7 flex flex-col justify-center text-left">
-          
-          <div className="overflow-hidden">
-            <motion.span
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-              className="font-space text-xs lg:text-sm tracking-[0.3em] text-neutral-500 uppercase mb-4 block"
-            >
-              VISUAL STORYTELLER & AI CREATIVE
-            </motion.span>
-          </div>
-
-          <div className="mb-2">
-            <h1 className="font-space font-black tracking-tight text-white fluid-hero-title select-none">
-              <motion.span
-                initial={{ opacity: 0, y: 80 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="block"
-              >
-                Hi, I'm
-              </motion.span>
-              <motion.span
-                initial={{ opacity: 0, y: 80 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="block text-gradient"
-              >
-                Rohith Arem
-              </motion.span>
-            </h1>
-          </div>
-
-          {/* Title Rotation */}
-          <div className="h-12 lg:h-16 overflow-hidden mb-6 flex items-center">
+        {/* Left Side HUD: Roles & Ticker */}
+        <motion.div
+          initial={{ opacity: 0, x: -30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1.0, delay: 0.6 }}
+          className="lg:col-span-4 flex flex-col gap-3 items-start justify-end"
+        >
+          <div className="h-10 overflow-hidden flex items-center">
             <AnimatePresence mode="wait">
               <motion.div
                 key={titleIndex}
-                initial={{ y: 40, opacity: 0 }}
+                initial={{ y: 25, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -40, opacity: 0 }}
-                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                className="font-space text-2xl lg:text-4xl font-light tracking-wide text-neutral-400"
+                exit={{ y: -25, opacity: 0 }}
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="font-space text-sm lg:text-lg font-bold tracking-[0.15em] text-cyan-400"
               >
                 {titles[titleIndex]}
               </motion.div>
             </AnimatePresence>
           </div>
+          <p className="font-satoshi text-xs lg:text-sm text-neutral-400 font-light leading-relaxed max-w-sm">
+            I engineer premium cinematic narrative cuts, custom post-production grading, and AI-enabled commercial visual campaigns.
+          </p>
+        </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            className="font-satoshi text-base lg:text-lg text-neutral-400 font-light leading-relaxed max-w-lg mb-10"
+        {/* Center Side HUD: Actions */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1.0, delay: 0.8 }}
+          className="lg:col-span-5 flex flex-wrap items-center justify-center gap-4"
+        >
+          <button
+            onClick={handleScrollToProjects}
+            className="group flex items-center gap-3 bg-white hover:bg-neutral-200 text-black px-6 py-3.5 rounded-full font-satoshi font-bold text-[11px] tracking-widest uppercase transition-all duration-300 shadow-lg shadow-white/5"
           >
-            I create cinematic content, AI-powered campaigns, engaging videos and visual experiences that help brands stand out.
-          </motion.p>
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-wrap items-center gap-4 mb-12"
+            <Play className="w-3.5 h-3.5 fill-black" />
+            <span>Play Showreel</span>
+          </button>
+          <a
+            href="updated_resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-2 border border-white/10 hover:border-white hover:bg-white/5 text-white px-6 py-3.5 rounded-full font-satoshi font-bold text-[11px] tracking-widest uppercase transition-all duration-300"
           >
-            <button
-              onClick={handleScrollToProjects}
-              className="bg-white hover:bg-neutral-200 text-black px-8 py-4 rounded-full font-satoshi font-bold text-xs tracking-widest uppercase transition-all duration-300 shadow-lg shadow-white/5"
-            >
-              View Projects
-            </button>
-            <a
-              href="updated_resume.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border border-white/10 hover:border-white hover:bg-white/5 text-white px-8 py-4 rounded-full font-satoshi font-bold text-xs tracking-widest uppercase transition-all duration-300"
-            >
-              View Resume
-            </a>
-            <button
-              onClick={handleScrollToContact}
-              className="font-satoshi text-xs font-bold text-neutral-400 hover:text-white tracking-widest uppercase underline underline-offset-4 py-2 px-4 transition-colors"
-            >
-              Hire Me
-            </button>
-          </motion.div>
-
-          {/* Social Links */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="flex items-center gap-6"
+            <FileText className="w-3.5 h-3.5" />
+            <span>Resume</span>
+          </a>
+          <button
+            onClick={handleScrollToContact}
+            className="font-satoshi text-[11px] font-bold text-neutral-400 hover:text-white tracking-widest uppercase underline underline-offset-4 px-4 py-2 transition-colors"
           >
-            <a 
-              href="https://www.instagram.com/rohith_as_ekalavya?igsh=MXRzYXlscmFlN295dg%3D%3D&utm_source=qr" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="text-neutral-500 hover:text-white transition-colors duration-300"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-            </a>
-            <a 
-              href="https://www.linkedin.com/in/arem-rohith-505ba4292?utm_source=share_via&utm_content=profile&utm_medium=member_ios" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="text-neutral-500 hover:text-white transition-colors duration-300"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
-            </a>
-            <a 
-              href="https://github.com/" 
-              target="_blank" 
-              rel="noreferrer" 
-              className="text-neutral-500 hover:text-white transition-colors duration-300"
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
-            </a>
-            <a 
-              href="mailto:rohithasekalavya@gmail.com" 
-              className="text-neutral-500 hover:text-white transition-colors duration-300"
-            >
-              <Mail className="w-5 h-5" />
-            </a>
-          </motion.div>
+            Hire Director
+          </button>
+        </motion.div>
 
-        </div>
-
-        {/* Right Side Image (Cinematic Floating Portrait) */}
-        <div className="lg:col-span-5 relative w-full aspect-[4/5] max-w-md mx-auto lg:max-w-none flex justify-center items-center">
-          <motion.div
-            style={{
-              x: portraitX,
-              y: portraitY,
-            }}
-            className="relative w-full h-full rounded-[2rem] overflow-hidden shadow-2xl group border border-white/5"
-          >
-            {/* Dark gradient mapping edges of image to background */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent z-10 opacity-80" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#080808]/40 via-transparent to-[#080808]/40 z-10" />
-            
-            {/* The Portrait Image */}
-            <img 
-               src={getAssetUrl("/photos/WhatsApp Image 2026-06-27 at 15.44.21.jpeg")} 
-               alt="Rohith Arem Portrait" 
-               className="w-full h-full object-cover scale-[1.05] group-hover:scale-[1.08] transition-transform duration-700 ease-out grayscale hover:grayscale-0 duration-[1.5s]"
-            />
-
-            {/* Glowing Accent Ring */}
-            <div className="absolute -inset-1 rounded-[2rem] bg-gradient-to-r from-purple-500/20 to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none blur-sm" />
-          </motion.div>
-          
-          {/* Subtle Decorative UI element */}
-          <div className="absolute -bottom-6 -right-6 glass-panel rounded-2xl p-4 hidden lg:flex flex-col gap-1 items-start max-w-[200px] border border-white/10 z-20">
+        {/* Right Side HUD: Location & Socials */}
+        <motion.div
+          initial={{ opacity: 0, x: 30 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1.0, delay: 0.7 }}
+          className="lg:col-span-3 flex flex-col gap-4 items-start lg:items-end justify-end text-left lg:text-right"
+        >
+          <div className="flex flex-col gap-1 items-start lg:items-end">
             <span className="font-space text-[10px] tracking-widest text-neutral-500 uppercase">
               Location
             </span>
@@ -258,23 +247,49 @@ export const Hero: React.FC = () => {
               Hyderabad / Chennai, India
             </span>
           </div>
-        </div>
+
+          {/* Socials bar */}
+          <div className="flex gap-4">
+            <a 
+              href="https://www.instagram.com/rohith_as_ekalavya?igsh=MXRzYXlscmFlN295dg%3D%3D&utm_source=qr" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="text-neutral-500 hover:text-white transition-colors duration-300"
+            >
+              <span className="font-space text-[10px] tracking-wider uppercase">IG</span>
+            </a>
+            <a 
+              href="https://www.linkedin.com/in/arem-rohith-505ba4292?utm_source=share_via&utm_content=profile&utm_medium=member_ios" 
+              target="_blank" 
+              rel="noreferrer" 
+              className="text-neutral-500 hover:text-white transition-colors duration-300"
+            >
+              <span className="font-space text-[10px] tracking-wider uppercase">LN</span>
+            </a>
+            <a 
+              href="mailto:rohithasekalavya@gmail.com" 
+              className="text-neutral-500 hover:text-white transition-colors duration-300"
+            >
+              <span className="font-space text-[10px] tracking-wider uppercase">Mail</span>
+            </a>
+          </div>
+        </motion.div>
 
       </div>
 
       {/* Scroll Down Indicator */}
       <div 
         onClick={handleScrollToProjects}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 cursor-pointer opacity-40 hover:opacity-100 transition-opacity duration-300 hidden lg:flex"
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 cursor-pointer opacity-30 hover:opacity-100 transition-opacity duration-300 hidden lg:flex z-30"
       >
         <span className="font-space text-[9px] tracking-[0.2em] text-white uppercase">
-          SCROLL TO EXPLORE
+          EXPLORE CUTS
         </span>
         <motion.div
-          animate={{ y: [0, 8, 0] }}
+          animate={{ y: [0, 6, 0] }}
           transition={{ repeat: Infinity, duration: 1.5, ease: 'easeInOut' }}
         >
-          <ArrowDown className="w-4 h-4 text-white" />
+          <ArrowDown className="w-3.5 h-3.5 text-white" />
         </motion.div>
       </div>
 
