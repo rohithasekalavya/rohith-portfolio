@@ -80,6 +80,40 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
           {/* Vignette Overlay for readability */}
           <div className="absolute inset-0 bg-gradient-to-b from-[#050507]/90 via-[#050507]/55 to-[#050507]/90 z-10" />
 
+          {/* Drifting Cinematic Smoke / Fog Effect */}
+          <div className="absolute inset-0 z-[12] overflow-hidden pointer-events-none opacity-40 mix-blend-screen">
+            <motion.div
+              animate={{
+                x: [-150, 150, -150],
+                y: [-80, 80, -80],
+                scale: [1, 1.25, 1],
+                rotate: [0, 180, 360],
+              }}
+              transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-[60%] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.06)_0%,transparent_60%)] filter blur-3xl"
+            />
+            <motion.div
+              animate={{
+                x: [150, -150, 150],
+                y: [80, -80, 80],
+                scale: [1.2, 0.95, 1.2],
+                rotate: [360, 180, 0],
+              }}
+              transition={{ duration: 32, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-[60%] bg-[radial-gradient(circle_at_center,rgba(6,182,212,0.04)_0%,transparent_50%)] filter blur-3xl"
+            />
+            <motion.div
+              animate={{
+                x: [-100, 100, -100],
+                y: [120, -120, 120],
+                scale: [0.95, 1.15, 0.95],
+                rotate: [45, 225, 405],
+              }}
+              transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
+              className="absolute -inset-[60%] bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.04)_0%,transparent_55%)] filter blur-2xl"
+            />
+          </div>
+
           {/* Background scanlines and noise */}
           <div className="film-grain z-20" />
           <div className="scanlines z-20" />
@@ -106,7 +140,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 1.05 }}
                   transition={{ duration: 0.4 }}
-                  className="absolute z-20 flex items-center justify-center font-mono text-4xl lg:text-6xl font-light tracking-[0.15em] text-white"
+                  className="absolute z-20 flex items-center justify-center font-space text-4xl lg:text-6xl font-light tracking-[0.15em] text-white"
                 >
                   {step === 0 && (
                     <div className="flex items-center">
@@ -171,7 +205,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
                   }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 1.0, ease: [0.76, 0, 0.24, 1] }}
-                  className="absolute z-20 font-mono text-3xl lg:text-5xl font-light tracking-[0.2em] text-white"
+                  className="absolute z-20 font-space text-3xl lg:text-5xl font-light tracking-[0.2em] text-white"
                 >
                   HI THIS IS
                 </motion.div>
@@ -188,7 +222,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
                   className="absolute z-20 flex flex-col items-center justify-center text-center mt-[10vh]"
                   key="rohith-reveal"
                 >
-                  <div className="flex items-center justify-center text-5xl lg:text-8xl font-black tracking-[0.05em] text-white uppercase drop-shadow-[0_0_40px_rgba(255,255,255,0.45)]">
+                  <div className="flex items-center justify-center text-5xl lg:text-8xl font-space font-black tracking-[0.05em] text-white uppercase drop-shadow-[0_0_40px_rgba(255,255,255,0.45)]">
                     {/* RO */}
                     <motion.span
                       initial={{ x: -35, opacity: 0, width: 0 }}
