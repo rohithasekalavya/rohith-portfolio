@@ -16,9 +16,8 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
     const timers = [
       setTimeout(() => setStep(1), 1200),      // Step 1: HI morphs to THIS (T & S added)
       setTimeout(() => setStep(2), 2400),      // Step 2: THIS morphs to IS (T & H removed)
-      setTimeout(() => setStep(3), 3800),      // Step 3: HI THIS IS slides to the top
-      setTimeout(() => setStep(4), 4800),      // Step 4: Show "ROHITH" in center (RO + HI + TH)
-      setTimeout(() => setIsDone(true), 6800),  // Step 5: Complete loader and exit
+      setTimeout(() => setStep(3), 3800),      // Step 3: HI THIS IS slides to the top AND ROHITH is written
+      setTimeout(() => setIsDone(true), 5800),  // Step 4: Complete loader and exit
     ];
 
     return () => timers.forEach(clearTimeout);
@@ -26,7 +25,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
 
   // Smooth continuous progress bar animation
   useEffect(() => {
-    const duration = 6600;
+    const duration = 5600;
     const intervalTime = 25;
     const steps = duration / intervalTime;
     let stepCount = 0;
@@ -166,9 +165,9 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
                 <motion.div
                   initial={{ y: 50, opacity: 0, scale: 1.1 }}
                   animate={{
-                    y: step >= 4 ? "-18vh" : "0vh",
-                    opacity: 1,
-                    scale: step >= 4 ? 0.72 : 1
+                    y: "-18vh",
+                    opacity: 0.8,
+                    scale: 0.72
                   }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 1.0, ease: [0.76, 0, 0.24, 1] }}
@@ -179,13 +178,13 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
               )}
             </AnimatePresence>
 
-            {/* Step 4: ROHITH (RO + HI + TH) is written in center */}
+            {/* Step 3: ROHITH (RO + HI + TH) is written in center */}
             <AnimatePresence>
-              {step >= 4 && (
+              {step >= 3 && (
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8, ease: 'easeOut' }}
+                  transition={{ duration: 0.8, ease: 'easeOut', delay: 0.3 }}
                   className="absolute z-20 flex flex-col items-center justify-center text-center mt-[10vh]"
                   key="rohith-reveal"
                 >
@@ -194,7 +193,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
                     <motion.span
                       initial={{ x: -35, opacity: 0, width: 0 }}
                       animate={{ x: 0, opacity: 1, width: 'auto' }}
-                      transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                      transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
                       className="overflow-hidden inline-block"
                     >
                       RO
@@ -204,7 +203,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
                     <motion.span
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
-                      transition={{ duration: 0.6, ease: 'easeOut' }}
+                      transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}
                       className="inline-block"
                     >
                       HI
@@ -214,7 +213,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
                     <motion.span
                       initial={{ x: 35, opacity: 0, width: 0 }}
                       animate={{ x: 0, opacity: 1, width: 'auto' }}
-                      transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                      transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
                       className="overflow-hidden inline-block"
                     >
                       TH
@@ -224,7 +223,7 @@ export const Loader: React.FC<LoaderProps> = ({ onComplete }) => {
                   <motion.p
                     initial={{ opacity: 0, y: 15 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.9, delay: 0.8 }}
+                    transition={{ duration: 0.9, delay: 1.0 }}
                     className="font-timecode text-xs tracking-[0.5em] text-cyan-400 mt-6 uppercase"
                   >
                     DIRECTORIAL & POST-PRODUCTION CUTS
