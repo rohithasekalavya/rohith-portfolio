@@ -99,7 +99,7 @@ export const Contact: React.FC = () => {
               <Send className="w-4 h-4" />
             </a>
             <a
-              href="/updated_resume.pdf"
+              href="updated_resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="pointer"

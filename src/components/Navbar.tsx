@@ -149,7 +149,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             </button>
 
             <a
-              href="/updated_resume.pdf"
+              href="updated_resume.pdf"
               target="_blank"
               rel="noopener noreferrer"
               data-cursor="pointer"
@@ -212,7 +212,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 +91 96401 17129
               </a>
               <a
-                href="/updated_resume.pdf"
+                href="updated_resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-3 bg-cyan-400 text-black text-center font-black rounded-lg text-xs tracking-widest uppercase mt-2"
