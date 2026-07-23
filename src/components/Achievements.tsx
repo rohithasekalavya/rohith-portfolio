@@ -77,8 +77,8 @@ export const Achievements: React.FC = () => {
           <span className="font-space text-xs lg:text-sm tracking-[0.3em] text-neutral-500 uppercase mb-4 block">
             HONOURS & CREDENTIALS
           </span>
-          <h2 className="font-space text-4xl lg:text-5xl font-bold tracking-tight text-white">
-            Awards & Achievements
+          <h2 className="font-cinzel text-4xl lg:text-5xl font-light tracking-tight text-white uppercase">
+            Awards & Laurels
           </h2>
         </div>
 
@@ -105,7 +105,7 @@ export const Achievements: React.FC = () => {
                       <span className="font-space text-[9px] tracking-widest text-neutral-500 uppercase block mb-0.5">
                         {item.subtitle}
                       </span>
-                      <h3 className="font-space text-lg lg:text-xl font-bold text-white transition-transform duration-300 group-hover:translate-x-1">
+                      <h3 className="font-cinzel text-base lg:text-lg font-medium text-white transition-transform duration-300 group-hover:translate-x-1">
                         {item.title}
                       </h3>
                     </div>

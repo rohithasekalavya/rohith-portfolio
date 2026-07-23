@@ -89,9 +89,9 @@ export const About: React.FC = () => {
             <span className="font-space text-xs lg:text-sm tracking-[0.3em] text-neutral-500 uppercase mb-4 block">
               MY BACKGROUND
             </span>
-            <h2 className="font-space text-4xl lg:text-5xl font-bold tracking-tight text-white mb-8">
+            <h2 className="font-cinzel text-4xl lg:text-5xl font-light tracking-tight text-white mb-8 uppercase">
               Cinematic Vision <br />
-              <span className="text-neutral-400">Powered by Technology</span>
+              <span className="text-neutral-400">Powered by Tech</span>
             </h2>
           </motion.div>
 

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, Eye, Film } from 'lucide-react';
 import { getAssetUrl } from '../utils/assets';
 
 interface GalleryItem {
@@ -12,6 +12,7 @@ interface GalleryItem {
 
 export const Gallery: React.FC = () => {
   const [activePhotoIdx, setActivePhotoIdx] = useState<number | null>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   const photos: GalleryItem[] = [
     {
@@ -97,216 +98,207 @@ export const Gallery: React.FC = () => {
       src: '/photos/IMG_20220329_130826.jpg',
       title: 'Atmospheric Dusk',
       category: 'Nature'
-    },
-    {
-      id: 'photo-15',
-      src: '/photos/IMG_20220528_205811 (1).jpg',
-      title: 'Urban Exploration',
-      category: 'Urban'
-    },
-    {
-      id: 'photo-16',
-      src: '/photos/IMG_20230206_183309.jpg',
-      title: 'Light Leak Contrast',
-      category: 'Aesthetic'
-    },
-    {
-      id: 'photo-17',
-      src: '/photos/IMG_2148.JPG',
-      title: 'Rustic Stillness',
-      category: 'Still Life'
-    },
-    {
-      id: 'photo-18',
-      src: '/photos/IMG_2561.jpg',
-      title: 'Editorial Composition',
-      category: 'Portrait'
-    },
-    {
-      id: 'photo-19',
-      src: '/photos/IMG_3075.JPG',
-      title: 'Warm Vignette',
-      category: 'Portrait'
-    },
-    {
-      id: 'photo-20',
-      src: '/photos/IMG_5832.JPG',
-      title: 'Minimalist Geometry',
-      category: 'Aesthetic'
-    },
-    {
-      id: 'photo-21',
-      src: '/photos/IMG_7530.JPG',
-      title: 'Smoky Radiance',
-      category: 'Cinematography'
-    },
-    {
-      id: 'photo-22',
-      src: '/photos/IMG_8403.JPG',
-      title: 'Golden Dust',
-      category: 'Atmospheric'
-    },
-    {
-      id: 'photo-23',
-      src: '/photos/IMG_8495.jpg',
-      title: 'Cinematic Portraiture',
-      category: 'Portrait'
-    },
-    {
-      id: 'photo-24',
-      src: '/photos/photo-output.jpeg',
-      title: 'Abstract Hue Frame',
-      category: 'Cinematography'
     }
   ];
 
   const activePhoto = activePhotoIdx !== null ? photos[activePhotoIdx] : null;
 
-  const handlePrev = (e: React.MouseEvent) => {
+  const handlePrevPhoto = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (activePhotoIdx !== null) {
-      setActivePhotoIdx((prev) => (prev === 0 ? photos.length - 1 : (prev as number) - 1));
+      setActivePhotoIdx(activePhotoIdx === 0 ? photos.length - 1 : activePhotoIdx - 1);
     }
   };
 
-  const handleNext = (e: React.MouseEvent) => {
+  const handleNextPhoto = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (activePhotoIdx !== null) {
-      setActivePhotoIdx((prev) => (prev === photos.length - 1 ? 0 : (prev as number) + 1));
+      setActivePhotoIdx(activePhotoIdx === photos.length - 1 ? 0 : activePhotoIdx + 1);
+    }
+  };
+
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: -320, behavior: 'smooth' });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollBy({ left: 320, behavior: 'smooth' });
     }
   };
 
   return (
     <section 
-      id="gallery" 
-      className="relative min-h-screen w-full bg-background py-24 lg:py-32 overflow-hidden px-6"
+      id="photo-work" 
+      className="relative w-full py-24 bg-[#050507] border-b border-white/5 overflow-hidden select-none"
     >
-      <div className="max-w-7xl w-full mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto flex flex-col gap-10 px-6">
         
         {/* Header */}
-        <div className="text-left mb-16 lg:mb-24">
-          <span className="font-space text-xs lg:text-sm tracking-[0.3em] text-neutral-500 uppercase mb-4 block">
-            VISUAL PORTFOLIO
-          </span>
-          <h2 className="font-space text-4xl lg:text-5xl font-bold tracking-tight text-white">
-            Photo Gallery
-          </h2>
-        </div>
-
-        {/* Pinterest Masonry Grid */}
-        <div className="columns-1 sm:columns-2 lg:columns-4 gap-6 space-y-6">
-          {photos.map((photo, idx) => (
-            <motion.div
-              key={photo.id}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-50px' }}
-              transition={{ duration: 0.6, delay: idx * 0.05 }}
-              onClick={() => setActivePhotoIdx(idx)}
-              className="relative rounded-2xl overflow-hidden glass-panel border border-white/5 cursor-zoom-in group break-inside-avoid"
-            >
-              {/* Glass Reflection sweep */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/[0.04] to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-10" />
-
-              <img 
-                src={getAssetUrl(photo.src)} 
-                alt={photo.title}
-                loading="lazy"
-                className="w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 grayscale group-hover:grayscale-0"
-              />
-
-              {/* Cover Gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 flex flex-col justify-end p-6 text-left" />
-
-              {/* Content overlay */}
-              <div className="absolute inset-0 p-6 flex flex-col justify-between items-start z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <span className="bg-black/50 backdrop-blur-md px-2.5 py-1 rounded font-satoshi text-[9px] uppercase tracking-wider text-neutral-300">
-                  {photo.category}
-                </span>
-
-                <div className="text-left mt-auto">
-                  <h4 className="font-space text-base font-bold text-white mb-1">
-                    {photo.title}
-                  </h4>
-                  <span className="font-satoshi text-[9px] text-neutral-400 uppercase tracking-widest flex items-center gap-1">
-                    <Eye className="w-3.5 h-3.5" /> Open Lightbox
-                  </span>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-      </div>
-
-      {/* Lightbox Modal */}
-      <AnimatePresence>
-        {activePhotoIdx !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setActivePhotoIdx(null)}
-            className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4"
-          >
-            {/* Close Button */}
-            <button
-              onClick={() => setActivePhotoIdx(null)}
-              className="absolute top-6 right-6 w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all z-50"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            {/* Prev Image Button */}
-            <button
-              onClick={handlePrev}
-              className="absolute left-6 w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all z-50"
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 text-left">
+          <div>
+            <div className="flex items-center gap-2 font-timecode text-xs text-cyan-400 font-bold tracking-widest uppercase mb-2">
+              <Film className="w-4 h-4" />
+              <span>DIRECTOR PROFILES & STILL CAROUSEL</span>
+            </div>
+            <h2 className="font-cinzel text-4xl lg:text-5xl font-light tracking-tight text-white uppercase">
+              Filmstrip Gallery
+            </h2>
+          </div>
+          
+          <div className="flex items-center gap-4">
+            <button 
+              onClick={scrollLeft}
+              className="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white hover:bg-white/10 transition-colors"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
-
-            {/* Next Image Button */}
-            <button
-              onClick={handleNext}
-              className="absolute right-6 w-12 h-12 rounded-full glass-panel flex items-center justify-center text-white border border-white/10 hover:bg-white/10 hover:border-white/20 transition-all z-50"
+            <button 
+              onClick={scrollRight}
+              className="w-10 h-10 rounded-full bg-white/5 border border-white/5 flex items-center justify-center text-white hover:bg-white/10 transition-colors"
             >
               <ChevronRight className="w-5 h-5" />
             </button>
+          </div>
+        </div>
 
-            {/* Centered Image */}
+        {/* 1. HORIZONTAL DRAGGABLE FILMSTRIP CAROUSEL */}
+        <div className="relative w-full py-4 bg-[#08080c] border-y-4 border-dashed border-white/15">
+          {/* Top Film Sprockets */}
+          <div className="w-full flex justify-between px-2 mb-4">
+            {Array.from({ length: 32 }).map((_, i) => (
+              <div key={`sprocket-top-${i}`} className="w-3.5 h-3.5 bg-black rounded border border-white/5" />
+            ))}
+          </div>
+
+          {/* Filmstrip Items scroll container */}
+          <div 
+            ref={scrollContainerRef}
+            className="flex gap-6 overflow-x-auto scrollbar-none px-6 py-2 scroll-smooth"
+            style={{ scrollbarWidth: 'none' }}
+          >
+            {photos.map((photo, idx) => (
+              <motion.div
+                key={photo.id}
+                onClick={() => setActivePhotoIdx(idx)}
+                data-cursor="shutter"
+                whileHover={{ scale: 1.02, y: -4 }}
+                transition={{ type: 'spring', damping: 25, stiffness: 260 }}
+                className="flex-shrink-0 w-72 lg:w-96 aspect-[16/10] rounded-xl overflow-hidden glass-panel border border-white/5 shadow-lg relative cursor-pointer group"
+              >
+                {/* Focus-Pull LOG Image Filter on hover */}
+                <img
+                  src={getAssetUrl(photo.src)}
+                  alt={photo.title}
+                  className="w-full h-full object-cover transition-all duration-700 ease-out filter grayscale blur-[3px] contrast-[0.75] saturate-[0.6] group-hover:filter-none group-hover:scale-105"
+                />
+
+                {/* Film Overlay Details */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent p-4 flex flex-col justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                  <span className="font-space text-[9px] text-cyan-400 tracking-widest uppercase">
+                    {photo.category}
+                  </span>
+                  
+                  <div className="flex justify-between items-end">
+                    <div className="text-left max-w-[80%]">
+                      <h4 className="font-space text-xs font-bold text-white tracking-wide truncate">
+                        {photo.title}
+                      </h4>
+                      <span className="font-timecode text-[9px] text-white/40 uppercase">
+                        ISO 400 • F2.8 • Rec.709
+                      </span>
+                    </div>
+                    <div className="w-7 h-7 rounded-full bg-white text-black flex items-center justify-center shadow">
+                      <Eye className="w-3.5 h-3.5" />
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Bottom Film Sprockets */}
+          <div className="w-full flex justify-between px-2 mt-4">
+            {Array.from({ length: 32 }).map((_, i) => (
+              <div key={`sprocket-bot-${i}`} className="w-3.5 h-3.5 bg-black rounded border border-white/5" />
+            ))}
+          </div>
+        </div>
+
+        {/* 2. CINEMATIC MODAL PREVIEW */}
+        <AnimatePresence>
+          {activePhoto && (
             <motion.div
-              key={activePhotoIdx}
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="relative max-w-4xl max-h-[80vh] flex flex-col items-center justify-center pointer-events-auto"
-              onClick={(e) => e.stopPropagation()}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActivePhotoIdx(null)}
+              className="fixed inset-0 z-[10002] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 lg:p-12 cursor-zoom-out"
             >
-              {activePhoto && (
-                <>
+              {/* Close Button */}
+              <button 
+                onClick={() => setActivePhotoIdx(null)}
+                className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-white/15 transition-all z-[10004]"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* Navigation Indicators */}
+              <button
+                onClick={handlePrevPhoto}
+                className="absolute left-6 w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-white/15 transition-all z-[10003] hidden md:flex"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+
+              <button
+                onClick={handleNextPhoto}
+                className="absolute right-6 w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-white/15 transition-all z-[10003] hidden md:flex"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+
+              {/* Central Frame details */}
+              <motion.div
+                key={activePhoto.id}
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                onClick={(e) => e.stopPropagation()}
+                className="relative max-w-5xl max-h-[80vh] flex flex-col items-center gap-4 cursor-default"
+              >
+                <div className="relative rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+                  {/* Widescreen 2.39:1 Letterbox */}
                   <img
                     src={getAssetUrl(activePhoto.src)}
                     alt={activePhoto.title}
-                    className="max-w-full max-h-[75vh] object-contain rounded-xl border border-white/10 shadow-2xl"
+                    className="max-w-full max-h-[70vh] object-contain"
                   />
-
-                  <div className="absolute -bottom-16 left-0 right-0 text-center flex flex-col gap-1 select-none">
-                    <span className="font-space text-lg font-bold text-white">
-                      {activePhoto.title}
-                    </span>
-                    <span className="font-satoshi text-xs text-neutral-400 uppercase tracking-widest">
-                      {activePhoto.category}
-                    </span>
+                  
+                  {/* Viewfinder lines overlay */}
+                  <div className="absolute inset-0 border border-white/10 pointer-events-none" />
+                  <div className="absolute top-4 right-4 text-[9px] font-timecode text-cyan-400 bg-black/60 px-2 py-1 rounded">
+                    PREVIEW Rec.709
                   </div>
-                </>
-              )}
+                </div>
+
+                <div className="text-center">
+                  <span className="font-space text-[10px] tracking-[0.25em] text-cyan-400 uppercase">
+                    {activePhoto.category}
+                  </span>
+                  <h3 className="font-cinzel text-lg lg:text-xl font-normal text-white mt-1">
+                    {activePhoto.title}
+                  </h3>
+                </div>
+              </motion.div>
             </motion.div>
+          )}
+        </AnimatePresence>
 
-          </motion.div>
-        )}
-      </AnimatePresence>
-
+      </div>
     </section>
   );
 };
